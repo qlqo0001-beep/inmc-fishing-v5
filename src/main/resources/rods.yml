@@ -1,0 +1,264 @@
+# ============================================================
+#  낚싯대
+# ============================================================
+#  /낚시 관리 → 낚싯대 에서 손에 든 것을 그대로 등록할 수 있습니다.
+#
+#  [보너스는 전부 더해지는 값입니다]
+#    bonus                 - 등급 id → 추첨 가중치에 **더할** 값.
+#                            곱셈이 아닌 이유: 가중치 1 인 S 에 2배를 줘봐야 1 이 늘 뿐입니다.
+#    big-fish-chance-bonus - 대어 확률에 더할 %p. 대어는 반드시 트로피가 됩니다.
+#    double-chance-bonus   - 더블 확률에 더할 %p.
+#    options.max-fatigue      - 들고 있는 동안 **자연 회복 한계**를 올립니다(절대 상한은 못 넘음).
+#    options.fatigue-recovery - 자연 회복 1회당 더 회복할 양.
+#    options.reel-power       - 힘겨루기: 물고기 체력을 깎는 속도.
+#    options.line-strength    - 힘겨루기: 줄이 버티는 장력. 도망 거리 상한도 같이 늘어납니다.
+#    options.reel-durability  - 힘겨루기: 릴이 버티는 정도.
+#    options.minigame-time    - 미니게임 제한 시간에 더할 초.
+#    options.bait-save        - 입질 때 미끼를 쓰지 않을 확률(%).
+#    options.size-bonus       - 물고기 크기에 더할 %. 미끼의 크기 보정과 합쳐집니다.
+#    options.fatigue-save     - 자동 낚시로 낚을 때 피로도를 쓰지 않을 확률(%).
+#    options.auto-catch-reduce - 자동 낚시 대기에서 뺄 초.
+#
+#  낚싯대에 붙은 커스텀 인첸트(inmc-enchants)의 낚시 수치도 이 값들에 더해집니다.
+# ============================================================
+rods:
+
+  weathered_rod:
+    item: "minecraft:fishing_rod"
+    material: "minecraft:fishing_rod"
+    mode: REFERENCE
+    name: "낡은 나무 낚싯대"
+    display-name: "&7낡은 나무 낚싯대"
+    lore:
+      - "&7오래돼서 금이 간 낚싯대입니다."
+    bonus:
+      F: 2
+      E: 1
+      D: 0
+      C: 0
+      B: 0
+      A: 0
+      S: 0
+    double-chance-bonus: 0.0
+    big-fish-chance-bonus: 0.0
+
+  basic_rod:
+    item: "minecraft:fishing_rod"
+    material: "minecraft:fishing_rod"
+    mode: REFERENCE
+    name: "평범한 낚싯대"
+    display-name: "&7평범한 낚싯대"
+    lore:
+      - "&7누구나 쉽게 구할 수 있는 낚싯대입니다."
+    bonus:
+      F: 1
+      E: 2
+      D: 1
+      C: 0
+      B: 0
+      A: 0
+      S: 0
+    double-chance-bonus: 0.0
+    big-fish-chance-bonus: 0.0
+    options:
+      reel-power: 5.0
+      line-strength: 10.0
+      reel-durability: 5.0
+
+  bamboo_rod:
+    item: "minecraft:fishing_rod"
+    material: "minecraft:fishing_rod"
+    mode: REFERENCE
+    name: "대나무 낚싯대"
+    display-name: "&a대나무 낚싯대"
+    lore:
+      - "&7가볍고 튼튼한 대나무로 만든 낚싯대입니다."
+    bonus:
+      F: -1
+      E: 2
+      D: 2
+      C: 1
+      B: 0
+      A: 0
+      S: 0
+    double-chance-bonus: 0.3
+    big-fish-chance-bonus: 0.0
+    options:
+      reel-power: 10.0
+      line-strength: 20.0
+      reel-durability: 10.0
+
+  iron_rod:
+    item: "minecraft:fishing_rod"
+    material: "minecraft:fishing_rod"
+    mode: REFERENCE
+    name: "철 낚싯대"
+    display-name: "&f철 낚싯대"
+    lore:
+      - "&7단단한 철로 제작된 낚싯대입니다."
+    bonus:
+      F: -3
+      E: 2
+      D: 2
+      C: 1
+      B: 1
+      A: 0
+      S: 0
+    double-chance-bonus: 0.5
+    big-fish-chance-bonus: 0.3
+    options:
+      reel-power: 15.0
+      line-strength: 30.0
+      reel-durability: 15.0
+      max-fatigue: 100
+
+  gold_rod:
+    item: "minecraft:fishing_rod"
+    material: "minecraft:fishing_rod"
+    mode: REFERENCE
+    name: "금 낚싯대"
+    display-name: "&6금 낚싯대"
+    lore:
+      - "&7금으로 만든 화려한 낚싯대입니다."
+    bonus:
+      F: -5
+      E: 1
+      D: 3
+      C: 2
+      B: 1
+      A: 1
+      S: 0
+    double-chance-bonus: 0.8
+    big-fish-chance-bonus: 0.5
+    options:
+      reel-power: 20.0
+      line-strength: 40.0
+      reel-durability: 20.0
+      max-fatigue: 200
+      fatigue-recovery: 20
+
+  obsidian_rod:
+    item: "minecraft:fishing_rod"
+    material: "minecraft:fishing_rod"
+    mode: REFERENCE
+    name: "흑요석 낚싯대"
+    display-name: "&1흑요석 낚싯대"
+    lore:
+      - "&7흑요석으로 단단하게 만든 낚싯대입니다."
+    bonus:
+      F: -7
+      E: -1
+      D: 3
+      C: 2
+      B: 2
+      A: 1
+      S: 1
+    double-chance-bonus: 1.0
+    big-fish-chance-bonus: 0.7
+    options:
+      reel-power: 25.0
+      line-strength: 50.0
+      reel-durability: 25.0
+      max-fatigue: 300
+      fatigue-recovery: 40
+
+  advanced_rod:
+    item: "minecraft:fishing_rod"
+    material: "minecraft:fishing_rod"
+    mode: REFERENCE
+    name: "고급 낚싯대"
+    display-name: "&a고급 낚싯대"
+    lore:
+      - "&7고급 낚싯대입니다."
+    bonus:
+      F: -10
+      E: -3
+      D: 4
+      C: 3
+      B: 2
+      A: 2
+      S: 1
+    double-chance-bonus: 1.2
+    big-fish-chance-bonus: 0.8
+    options:
+      reel-power: 30.0
+      line-strength: 60.0
+      reel-durability: 30.0
+      max-fatigue: 400
+      fatigue-recovery: 60
+
+  master_rod:
+    item: "minecraft:fishing_rod"
+    material: "minecraft:fishing_rod"
+    mode: REFERENCE
+    name: "마스터 낚싯대"
+    display-name: "&6마스터 낚싯대"
+    lore:
+      - "&7최고급 낚싯대입니다."
+      - "&7희귀한 물고기를 낚을 확률이 높습니다."
+    bonus:
+      F: -13
+      E: -5
+      D: 4
+      C: 4
+      B: 3
+      A: 2
+      S: 2
+    double-chance-bonus: 1.5
+    big-fish-chance-bonus: 1.0
+    options:
+      reel-power: 40.0
+      line-strength: 70.0
+      reel-durability: 40.0
+      max-fatigue: 500
+      fatigue-recovery: 80
+
+  mythic_rod:
+    item: "minecraft:fishing_rod"
+    material: "minecraft:fishing_rod"
+    mode: REFERENCE
+    name: "신화 낚싯대"
+    display-name: "&d신화 낚싯대"
+    lore:
+      - "&7전설 속에서만 존재한다는 낚싯대입니다."
+    bonus:
+      F: -16
+      E: -7
+      D: 5
+      C: 4
+      B: 4
+      A: 3
+      S: 3
+    double-chance-bonus: 1.8
+    big-fish-chance-bonus: 1.2
+    options:
+      reel-power: 50.0
+      line-strength: 80.0
+      reel-durability: 50.0
+      max-fatigue: 600
+      fatigue-recovery: 100
+
+  legendary_rod:
+    item: "minecraft:fishing_rod"
+    material: "minecraft:fishing_rod"
+    mode: REFERENCE
+    name: "전설 낚싯대"
+    display-name: "&c전설 낚싯대"
+    lore:
+      - "&7모든 어부의 꿈, 전설의 낚싯대입니다."
+    bonus:
+      F: -20
+      E: -9
+      D: 6
+      C: 5
+      B: 5
+      A: 4
+      S: 4
+    double-chance-bonus: 2.5
+    big-fish-chance-bonus: 1.5
+    options:
+      reel-power: 60.0
+      line-strength: 100.0
+      reel-durability: 60.0
+      max-fatigue: 800
+      fatigue-recovery: 150

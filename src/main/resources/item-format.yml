@@ -1,0 +1,61 @@
+# ============================================================
+#  낚싯대 능력 로어 서식 (2세대 item-format.yml 과 같은 키)
+#  /낚시 지급 낚싯대 와 관리 화면의 "나에게 지급"으로 나가는 낚싯대에 붙습니다.
+#  (& 색상 코드 사용 가능. 값이 0 인 줄은 적지 않습니다)
+# ============================================================
+rod:
+  # 섹션 위/아래에 그어지는 구분선
+  divider: "&8━━━━━━━━━━━━━━━━━━━━"
+  # 섹션 사이에 빈 줄을 넣을지 여부
+  section-gap: true
+  # 로어 맨 아래에 구분선을 추가할지 여부
+  footer-divider: true
+
+  # --- 등급 확률 보너스 섹션 ---
+  grade-bonus:
+    enabled: true
+    title: "&6✧ 등급 보너스"
+    # 0인 등급(보너스 없음)도 표시할지 여부 (false = 0 아닌 것만)
+    show-zero: false
+    # 각 등급줄 맨 앞에 붙는 문구 (등급명 뒤에 값이 이어짐)
+    line-prefix: "  &8▸ &7"
+    value-separator: "   "
+    # 양수 값 색상 (양수는 0이 아닐 때 grade 색 대신 이 값을 쓰려면 false 참고)
+    positive-color: "&a"
+    negative-color: "&c"
+    # true면 양수 값에 등급별 고유 색을 사용 (예: D=§b, C=§d, S=§6)
+    use-grade-color-positive: true
+
+  # --- 낚시 옵션 섹션 (더블/대어 확률) ---
+  fishing-options:
+    enabled: true
+    title: "&b◈ 낚시 옵션"
+    line-prefix: "  &8▸ &7"
+    value-separator: "   "
+    positive-color: "&a"
+    # label-1 = 더블 확률, label-2 = 대어 확률
+    label-1: "더블 확률"
+    label-2: "대어 확률"
+
+  # --- 트로피 파이트 옵션 섹션 (릴 파워/줄 강도/릴 내구도) ---
+  fight-options:
+    enabled: true
+    title: "&d◈ 트로피 파이트 옵션"
+    line-prefix: "  &8▸ &7"
+    value-separator: "   "
+    positive-color: "&a"
+    # label-1 = 릴 파워, label-2 = 줄 강도, label-3 = 릴 내구도
+    label-1: "릴 파워"
+    label-2: "줄 강도"
+    label-3: "릴 내구도"
+
+  # --- 피로도 섹션 (최대 피로도/피로 회복) ---
+  fatigue:
+    enabled: true
+    title: "&c◈ 피로도"
+    line-prefix: "  &8▸ &7"
+    value-separator: "   "
+    positive-color: "&a"
+    # label-1 = 최대 피로도, label-2 = 피로 회복
+    label-1: "최대 피로도"
+    label-2: "피로 회복"

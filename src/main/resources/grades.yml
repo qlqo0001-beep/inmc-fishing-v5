@@ -1,0 +1,55 @@
+# ============================================================
+#  등급
+# ============================================================
+# 등급은 **고정 목록이 아닙니다.** 여기서 더하거나 뺄 수 있고, 코드가 그대로 따라갑니다.
+#
+# 한 등급이 세 가지를 동시에 정합니다:
+#   weight       — 나올 확률 (전체 합에 대한 비율)
+#   input-count  — 미니게임에서 눌러야 하는 횟수
+#   time-seconds — 그 횟수를 눌러야 하는 제한 시간
+#
+# ⚠ 2세대의 next-grade 는 없어졌습니다. 대어가 "한 등급 위로 승급"이 아니라
+#   **"반드시 트로피가 되는 큰 개체"** 로 바뀌었기 때문입니다.
+grades:
+  F:
+    id: "f"
+    weight: 45
+    input-count: 3
+    time-seconds: 5.0
+    color: "&f"
+  E:
+    id: "e"
+    weight: 25
+    input-count: 4
+    time-seconds: 4.5
+    color: "&a"
+  D:
+    id: "d"
+    weight: 15
+    input-count: 5
+    time-seconds: 4.0
+    color: "&b"
+  C:
+    id: "c"
+    weight: 8
+    input-count: 6
+    time-seconds: 3.8
+    color: "&d"
+  B:
+    id: "b"
+    weight: 4
+    input-count: 7
+    time-seconds: 3.5
+    color: "&5"
+  A:
+    id: "a"
+    weight: 2
+    input-count: 8
+    time-seconds: 3.2
+    color: "&6"
+  S:
+    id: "s"
+    weight: 1
+    input-count: 9
+    time-seconds: 3.0
+    color: "&c"

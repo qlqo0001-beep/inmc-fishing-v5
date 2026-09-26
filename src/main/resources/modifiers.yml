@@ -1,0 +1,40 @@
+# ============================================================
+#  환경 보정
+# ============================================================
+# 낚는 장소와 상황에 따라 등급 확률을 조정합니다.
+#
+# **전부 곱연산으로 누적됩니다.** 네더에서 비 오는 밤에 VIP 가 낚으면
+# 2.0 × 1.5 × 1.2 × 1.1 이 S 가중치에 곱해집니다.
+# 설정하지 않은 축은 1.0 이라 결과에 아무 영향이 없습니다.
+#
+# ⚠ 낚싯대 보너스는 **덧셈**입니다 (items/rod.yml). 여기와 방식이 다릅니다 —
+#   가중치 1 인 S 에 2배를 곱해봐야 1 이 늘 뿐이라, 좋은 낚싯대가 희귀 등급을
+#   열어주려면 더해야 합니다.
+
+world:
+  world_nether:
+    grade-weight-multiplier:
+      S: 2.0
+      A: 1.5
+
+biome:
+  RIVER:
+    grade-weight-multiplier:
+      F: 1.2
+
+weather:
+  RAIN:
+    grade-weight-multiplier:
+      A: 1.3
+      S: 1.5
+
+time:
+  NIGHT:
+    grade-weight-multiplier:
+      S: 1.2
+
+permission:
+  fishing.vip:
+    grade-weight-multiplier:
+      A: 1.1
+      S: 1.1

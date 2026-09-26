@@ -1,0 +1,50 @@
+# ============================================================
+#  도감 보상
+# ============================================================
+#  보상은 **콘솔 명령어 목록**입니다. {player} 가 치환됩니다.
+#  **한 번 받은 것은 다시 주지 않습니다** — 칸을 비웠다가 다시 채워도 마찬가지입니다.
+#  (그러지 않으면 넣었다 뺐다를 반복하는 것이 무한 보상이 됩니다.)
+#
+#  다섯 갈래:
+#    first-register        물고기를 처음 도감에 넣었을 때 (물고기 id 별)
+#    milestones            그 물고기를 N칸 채웠을 때 (물고기 id → 칸 수)
+#    slot-completion       그 물고기를 끝까지 채웠을 때 (물고기 id 별)
+#    grade-all-registered  그 등급 전부를 한 칸 이상 (등급 id 별)
+#    grade-all-perfect     그 등급 전부를 끝까지 (등급 id 별)
+# ============================================================
+settings:
+  enabled: true
+
+rewards:
+  first-register: {}
+  #  cod:
+  #    - "give {player} experience 10"
+
+  milestones: {}
+  #  cod:
+  #    5:
+  #      - "give {player} experience 50"
+
+  slot-completion: {}
+  #  cod:
+  #    - "broadcast {player}님이 생대구 도감을 퍼펙트 완성했습니다!"
+
+  grade-all-registered:
+    f: []
+    e: []
+    d: []
+    c: []
+    b: []
+    a: []
+    s:
+      - "broadcast {player}님이 S등급 도감을 올등록했습니다!"
+
+  grade-all-perfect:
+    f: []
+    e: []
+    d: []
+    c: []
+    b: []
+    a: []
+    s:
+      - "broadcast {player}님이 S등급 도감을 퍼펙트 완성했습니다!"

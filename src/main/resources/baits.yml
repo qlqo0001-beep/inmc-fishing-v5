@@ -1,0 +1,145 @@
+# ============================================================
+#  미끼 — 왼손(오프핸드)에 들면 적용되고, 입질마다 한 개 소모됩니다.
+# ============================================================
+#    grade-bonus         - 등급 id → 추첨 가중치에 **더할** 값. 낚싯대 보너스와 합산됩니다.
+#    size-bonus-percent  - 크기에 곱할 %. **먼저** 적용됩니다.
+#    size-bonus-fixed    - 크기에 더할 cm. 퍼센트 **뒤에** 더합니다.
+#
+#  ※ 미끼로 키운 크기는 max-size 를 넘을 수 있습니다. 의도된 동작입니다.
+# ============================================================
+baits:
+
+  basic_bait:
+    item: "minecraft:string"
+    material: "minecraft:string"
+    mode: REFERENCE
+    name: "기본 미끼"
+    display-name: "&7기본 미끼"
+    lore:
+      - "&7평범한 미끼입니다."
+      - "&7특별한 효과는 없습니다."
+
+  worm_bait:
+    item: "minecraft:string"
+    material: "minecraft:string"
+    mode: REFERENCE
+    name: "지렁이 미끼"
+    display-name: "&a지렁이 미끼"
+    lore:
+      - "&7신선한 지렁이 미끼입니다."
+      - "&7물고기 크기 +5%"
+    size-bonus-percent: 5.0
+
+  dough_bait:
+    item: "minecraft:slime_ball"
+    material: "minecraft:slime_ball"
+    mode: REFERENCE
+    name: "떡밥"
+    display-name: "&e떡밥"
+    lore:
+      - "&7잘 뭉쳐진 떡밥입니다."
+      - "&7물고기 크기 +10%"
+    size-bonus-percent: 10.0
+
+  frozen_shrimp_bait:
+    item: "minecraft:cooked_cod"
+    material: "minecraft:cooked_cod"
+    mode: REFERENCE
+    name: "냉동 새우 미끼"
+    display-name: "&b냉동 새우 미끼"
+    lore:
+      - "&7차갑게 얼린 새우 미끼입니다."
+      - "&7물고기 크기 +15%"
+    size-bonus-percent: 15.0
+
+  golden_worm_bait:
+    item: "minecraft:glowstone_dust"
+    material: "minecraft:glowstone_dust"
+    mode: REFERENCE
+    name: "골든 지렁이 미끼"
+    display-name: "&6골든 지렁이 미끼"
+    lore:
+      - "&7희귀한 황금 지렁이 미끼입니다."
+      - "&7물고기 크기 +20%"
+    size-bonus-percent: 20.0
+
+  silver_bait:
+    item: "minecraft:iron_nugget"
+    material: "minecraft:iron_nugget"
+    mode: REFERENCE
+    name: "은빛 미끼"
+    display-name: "&7은빛 미끼"
+    lore:
+      - "&7은빛으로 반짝이는 미끼입니다."
+      - "&7D등급 +5% · C등급 +3%"
+    grade-bonus:
+      d: 5
+      c: 3
+
+  big_fish_lure:
+    item: "minecraft:gold_nugget"
+    material: "minecraft:gold_nugget"
+    mode: REFERENCE
+    name: "대어의 유혹"
+    display-name: "&6대어의 유혹"
+    lore:
+      - "&7대어를 유혹하는 특별한 미끼입니다."
+      - "&7B등급 +3% · A등급 +2%"
+    grade-bonus:
+      b: 3
+      a: 2
+
+  deep_sea_bait:
+    item: "minecraft:prismarine_crystals"
+    material: "minecraft:prismarine_crystals"
+    mode: REFERENCE
+    name: "심해 미끼"
+    display-name: "&3심해 미끼"
+    lore:
+      - "&7심해에서만 찾을 수 있는 미끼입니다."
+      - "&7A등급 +2% · S등급 +1%"
+    grade-bonus:
+      a: 2
+      s: 1
+
+  premium_bait:
+    item: "minecraft:experience_bottle"
+    material: "minecraft:experience_bottle"
+    mode: REFERENCE
+    name: "프리미엄 미끼"
+    display-name: "&d프리미엄 미끼"
+    lore:
+      - "&7고급 재료로 만든 미끼입니다."
+      - "&7크기 +10% · C등급 +3% · B등급 +2%"
+    size-bonus-percent: 10.0
+    grade-bonus:
+      c: 3
+      b: 2
+
+  legendary_bait:
+    item: "minecraft:nether_star"
+    material: "minecraft:nether_star"
+    mode: REFERENCE
+    name: "전설의 미끼"
+    display-name: "&c전설의 미끼"
+    lore:
+      - "&7전설적인 낚시꾼만이 사용할 수 있는 미끼입니다."
+      - "&7크기 +20% · A등급 +2% · S등급 +1%"
+    size-bonus-percent: 20.0
+    grade-bonus:
+      a: 2
+      s: 1
+
+  master_fisher_bait:
+    item: "minecraft:ender_eye"
+    material: "minecraft:ender_eye"
+    mode: REFERENCE
+    name: "마스터 피셔의 미끼"
+    display-name: "&5마스터 피셔의 미끼"
+    lore:
+      - "&7낚시 마스터의 비법이 담긴 미끼입니다."
+      - "&7크기 +15% · B등급 +4% · A등급 +2%"
+    size-bonus-percent: 15.0
+    grade-bonus:
+      b: 4
+      a: 2

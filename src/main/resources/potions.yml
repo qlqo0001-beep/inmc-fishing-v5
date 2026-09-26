@@ -1,0 +1,89 @@
+# ============================================================
+#  피로회복 물약 — 손에 들고 우클릭하면 한 개를 쓰고 즉시 회복합니다.
+# ============================================================
+#  자연 회복은 config.yml 의 fatigue.default 까지만 올라가지만, 물약은
+#  **절대 상한(fatigue.max)** 까지 닿습니다. 그 차이가 물약의 존재 이유입니다.
+#
+#    amount  - 회복량
+#    grade   - 연관 등급. /낚시 지급 물약 이 이걸로 찾습니다. 비워둬도 됩니다.
+#              (2세대는 등급이 곧 키였습니다. 지금은 이름이 키라 같은 등급에
+#               이벤트 물약·상점 물약을 여러 개 둘 수 있습니다.)
+# ============================================================
+potions:
+
+  f_potion:
+    item: "minecraft:potion"
+    material: "minecraft:potion"
+    mode: REFERENCE
+    name: "[F] 피로회복 물약"
+    display-name: "&f[F] 피로회복 물약"
+    lore:
+      - "&7피로도를 &f200 &7회복합니다."
+    amount: 200
+    grade: f
+
+  e_potion:
+    item: "minecraft:potion"
+    material: "minecraft:potion"
+    mode: REFERENCE
+    name: "[E] 피로회복 물약"
+    display-name: "&a[E] 피로회복 물약"
+    lore:
+      - "&7피로도를 &a500 &7회복합니다."
+    amount: 500
+    grade: e
+
+  d_potion:
+    item: "minecraft:potion"
+    material: "minecraft:potion"
+    mode: REFERENCE
+    name: "[D] 피로회복 물약"
+    display-name: "&b[D] 피로회복 물약"
+    lore:
+      - "&7피로도를 &b1000 &7회복합니다."
+    amount: 1000
+    grade: d
+
+  c_potion:
+    item: "minecraft:potion"
+    material: "minecraft:potion"
+    mode: REFERENCE
+    name: "[C] 피로회복 물약"
+    display-name: "&9[C] 피로회복 물약"
+    lore:
+      - "&7피로도를 &92000 &7회복합니다."
+    amount: 2000
+    grade: c
+
+  b_potion:
+    item: "minecraft:potion"
+    material: "minecraft:potion"
+    mode: REFERENCE
+    name: "[B] 피로회복 물약"
+    display-name: "&5[B] 피로회복 물약"
+    lore:
+      - "&7피로도를 &54000 &7회복합니다."
+    amount: 4000
+    grade: b
+
+  a_potion:
+    item: "minecraft:potion"
+    material: "minecraft:potion"
+    mode: REFERENCE
+    name: "[A] 피로회복 물약"
+    display-name: "&6[A] 피로회복 물약"
+    lore:
+      - "&7피로도를 &68000 &7회복합니다."
+    amount: 8000
+    grade: a
+
+  s_potion:
+    item: "minecraft:potion"
+    material: "minecraft:potion"
+    mode: REFERENCE
+    name: "[S] 피로회복 물약"
+    display-name: "&c[S] 피로회복 물약"
+    lore:
+      - "&7피로도를 &c16000 &7회복합니다."
+    amount: 16000
+    grade: s

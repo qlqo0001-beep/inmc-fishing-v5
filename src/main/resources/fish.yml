@@ -1,0 +1,1159 @@
+# ============================================================
+#  낚을 수 있는 것 전부
+# ============================================================
+#  /낚시 관리 → 물고기 에서 손에 든 것을 그대로 등록할 수 있습니다.
+#  손으로 고친 뒤에는 /낚시 리로드 를 실행하세요.
+#
+#  [아이템 정체]
+#    item          - 참조. "minecraft:cod" · "mmoitems:MATERIAL:TUNA" · "itemsadder:내아이템"
+#    mode          - REFERENCE(원본에서 매번 생성) / SNAPSHOT(등록 순간으로 고정)
+#    material      - 빠른 거르개. 참조를 못 풀었을 때의 대체 재질이기도 합니다.
+#    name          - **식별용 평문 이름.** 색코드를 넣지 마세요.
+#    display-name  - **표시용 이름.** 색코드를 넣습니다.
+#    lore          - 표시용 설명. 크기·트로피 줄은 낚일 때 자동으로 덧붙습니다.
+#
+#  [낚시 속성]
+#    grade         - grades.yml 의 등급 id. 없는 등급을 적으면 영영 안 나옵니다.
+#    weight        - 같은 등급 안에서의 추첨 가중치. 0 이면 안 나옵니다.
+#    min/max/avg-size - cm. 셋 다 0 이면 크기 없는 것(쓰레기·광물)입니다.
+#    double-enabled   - 더블 보상 대상인지. 쓰레기는 꺼두는 편이 좋습니다.
+#    fatigue-recovery - 0 보다 크면 먹어서 피로도를 회복하는 아이템이 됩니다.
+#    max-slots     - 도감 칸 수. 안 적으면 config.yml 의 collection.default-max-slots.
+#    commands      - 낚였을 때 콘솔에서 실행. {player} 가 치환됩니다.
+# ============================================================
+fish:
+
+  # ────────────────── F 등급 ──────────────────
+
+  cod:
+    grade: f
+    item: "minecraft:cod"
+    material: "minecraft:cod"
+    mode: REFERENCE
+    name: "생대구"
+    display-name: "&3생대구"
+    lore:
+      - "&7신선한 생대구입니다."
+    min-size: 10.0
+    max-size: 80.0
+    avg-size: 35.0
+    weight: 20
+    double-enabled: true
+    commands: []
+
+  salmon:
+    grade: f
+    item: "minecraft:salmon"
+    material: "minecraft:salmon"
+    mode: REFERENCE
+    name: "연어"
+    display-name: "&3연어"
+    lore:
+      - "&7신선한 연어입니다."
+    min-size: 20.0
+    max-size: 100.0
+    avg-size: 50.0
+    weight: 18
+    double-enabled: true
+    commands: []
+
+  tropical_fish:
+    grade: f
+    item: "minecraft:tropical_fish"
+    material: "minecraft:tropical_fish"
+    mode: REFERENCE
+    name: "엽대어"
+    display-name: "&3엽대어"
+    lore:
+      - "&7알록달록한 엽대어입니다."
+    min-size: 5.0
+    max-size: 25.0
+    avg-size: 12.0
+    weight: 14
+    double-enabled: true
+    commands: []
+
+  mackerel:
+    grade: f
+    item: "minecraft:cod"
+    material: "minecraft:cod"
+    mode: REFERENCE
+    name: "고등어"
+    display-name: "&3고등어"
+    lore:
+      - "&7은빛 고등어입니다."
+    min-size: 15.0
+    max-size: 60.0
+    avg-size: 30.0
+    weight: 12
+    double-enabled: true
+    commands: []
+
+  carp:
+    grade: f
+    item: "minecraft:cod"
+    material: "minecraft:cod"
+    mode: REFERENCE
+    name: "잉어"
+    display-name: "&3잉어"
+    lore:
+      - "&7잉어입니다."
+    min-size: 20.0
+    max-size: 90.0
+    avg-size: 45.0
+    weight: 10
+    double-enabled: true
+    commands: []
+
+  catfish:
+    grade: f
+    item: "minecraft:cod"
+    material: "minecraft:cod"
+    mode: REFERENCE
+    name: "메기"
+    display-name: "&3메기"
+    lore:
+      - "&7수염이 달린 메기입니다."
+    min-size: 15.0
+    max-size: 120.0
+    avg-size: 50.0
+    weight: 8
+    double-enabled: true
+    commands: []
+
+  bass:
+    grade: f
+    item: "minecraft:cod"
+    material: "minecraft:cod"
+    mode: REFERENCE
+    name: "배스"
+    display-name: "&3배스"
+    lore:
+      - "&7민물의 왕 배스입니다."
+    min-size: 20.0
+    max-size: 70.0
+    avg-size: 40.0
+    weight: 5
+    double-enabled: true
+    commands: []
+
+  old_boot:
+    grade: f
+    item: "minecraft:leather_boots"
+    material: "minecraft:leather_boots"
+    mode: REFERENCE
+    name: "낡은 장화"
+    display-name: "&8낡은 장화"
+    lore:
+      - "&7누군가 잃어버린 것 같습니다."
+      - "&7도감에 등록할 수 있습니다."
+    min-size: 0.0
+    max-size: 0.0
+    avg-size: 0.0
+    weight: 4
+    double-enabled: false
+    commands: []
+
+  coal:
+    grade: f
+    item: "minecraft:coal"
+    material: "minecraft:coal"
+    mode: REFERENCE
+    name: "석탄"
+    display-name: "&8석탄"
+    lore:
+      - "&7바닥에서 툭 떨어진 석탄입니다."
+    min-size: 0.0
+    max-size: 0.0
+    avg-size: 0.0
+    weight: 3
+    double-enabled: false
+    commands: []
+
+  bone:
+    grade: f
+    item: "minecraft:bone"
+    material: "minecraft:bone"
+    mode: REFERENCE
+    name: "뼈"
+    display-name: "&8뼈"
+    lore:
+      - "&7누군가의 뼈 조각입니다."
+    min-size: 0.0
+    max-size: 0.0
+    avg-size: 0.0
+    weight: 1
+    double-enabled: false
+    commands: []
+
+  # ────────────────── E 등급 ──────────────────
+
+  pufferfish:
+    grade: e
+    item: "minecraft:pufferfish"
+    material: "minecraft:pufferfish"
+    mode: REFERENCE
+    name: "복어"
+    display-name: "&b복어"
+    lore:
+      - "&7독이 있는 복어입니다."
+    min-size: 10.0
+    max-size: 40.0
+    avg-size: 20.0
+    weight: 20
+    double-enabled: true
+    commands: []
+
+  cod_rare:
+    grade: e
+    item: "minecraft:cod"
+    material: "minecraft:cod"
+    mode: REFERENCE
+    name: "큰 생대구"
+    display-name: "&b큰 생대구"
+    lore:
+      - "&7평소보다 큰 생대구입니다."
+    min-size: 40.0
+    max-size: 120.0
+    avg-size: 70.0
+    weight: 16
+    double-enabled: true
+    commands: []
+
+  salmon_rare:
+    grade: e
+    item: "minecraft:salmon"
+    material: "minecraft:salmon"
+    mode: REFERENCE
+    name: "큰 연어"
+    display-name: "&b큰 연어"
+    lore:
+      - "&7평소보다 큰 연어입니다."
+    min-size: 50.0
+    max-size: 130.0
+    avg-size: 80.0
+    weight: 14
+    double-enabled: true
+    commands: []
+
+  bluefish:
+    grade: e
+    item: "minecraft:cod"
+    material: "minecraft:cod"
+    mode: REFERENCE
+    name: "방어"
+    display-name: "&b방어"
+    lore:
+      - "&7은빛 방어입니다."
+    min-size: 30.0
+    max-size: 100.0
+    avg-size: 60.0
+    weight: 12
+    double-enabled: true
+    commands: []
+
+  halibut:
+    grade: e
+    item: "minecraft:cod"
+    material: "minecraft:cod"
+    mode: REFERENCE
+    name: "넙치"
+    display-name: "&b넙치"
+    lore:
+      - "&7넓은 몸의 넙치입니다."
+    min-size: 25.0
+    max-size: 90.0
+    avg-size: 50.0
+    weight: 10
+    double-enabled: true
+    commands: []
+
+  squid:
+    grade: e
+    item: "minecraft:cod"
+    material: "minecraft:cod"
+    mode: REFERENCE
+    name: "오징어"
+    display-name: "&b오징어"
+    lore:
+      - "&7촉수가 살아 움직입니다."
+    min-size: 15.0
+    max-size: 50.0
+    avg-size: 30.0
+    weight: 8
+    double-enabled: true
+    commands: []
+
+  octopus:
+    grade: e
+    item: "minecraft:cod"
+    material: "minecraft:cod"
+    mode: REFERENCE
+    name: "문어"
+    display-name: "&b문어"
+    lore:
+      - "&7똑똑한 문어입니다."
+    min-size: 20.0
+    max-size: 80.0
+    avg-size: 40.0
+    weight: 6
+    double-enabled: true
+    commands: []
+
+  sea_bream:
+    grade: e
+    item: "minecraft:cod"
+    material: "minecraft:cod"
+    mode: REFERENCE
+    name: "도미"
+    display-name: "&b도미"
+    lore:
+      - "&7붉은 등빛의 도미입니다."
+    min-size: 20.0
+    max-size: 70.0
+    avg-size: 40.0
+    weight: 5
+    double-enabled: true
+    commands: []
+
+  yellowtail:
+    grade: e
+    item: "minecraft:salmon"
+    material: "minecraft:salmon"
+    mode: REFERENCE
+    name: "부레"
+    display-name: "&b부레"
+    lore:
+      - "&7노란 꼬리의 부레입니다."
+    min-size: 40.0
+    max-size: 120.0
+    avg-size: 70.0
+    weight: 3
+    double-enabled: true
+    commands: []
+
+  phantom_eel:
+    grade: e
+    item: "minecraft:salmon"
+    material: "minecraft:salmon"
+    mode: REFERENCE
+    name: "유령 장어"
+    display-name: "&b유령 장어"
+    lore:
+      - "&7희미하게 빛나는 장어입니다."
+    min-size: 50.0
+    max-size: 200.0
+    avg-size: 100.0
+    weight: 1
+    double-enabled: true
+    commands: []
+
+  # ────────────────── D 등급 ──────────────────
+
+  swordfish:
+    grade: d
+    item: "minecraft:cod"
+    material: "minecraft:cod"
+    mode: REFERENCE
+    name: "황새치"
+    display-name: "&9황새치"
+    lore:
+      - "&7긴 코를 가진 황새치입니다."
+    min-size: 80.0
+    max-size: 300.0
+    avg-size: 180.0
+    weight: 18
+    double-enabled: true
+    commands: []
+
+  tuna:
+    grade: d
+    item: "minecraft:cod"
+    material: "minecraft:cod"
+    mode: REFERENCE
+    name: "참치"
+    display-name: "&9참치"
+    lore:
+      - "&7빠른 참치입니다."
+    min-size: 60.0
+    max-size: 250.0
+    avg-size: 150.0
+    weight: 16
+    double-enabled: true
+    commands: []
+
+  shark_small:
+    grade: d
+    item: "minecraft:cod"
+    material: "minecraft:cod"
+    mode: REFERENCE
+    name: "작은 상어"
+    display-name: "&9작은 상어"
+    lore:
+      - "&7아직 어린 상어입니다."
+    min-size: 50.0
+    max-size: 200.0
+    avg-size: 120.0
+    weight: 14
+    double-enabled: true
+    commands: []
+
+  sturgeon:
+    grade: d
+    item: "minecraft:cod"
+    material: "minecraft:cod"
+    mode: REFERENCE
+    name: "철갑상어"
+    display-name: "&9철갑상어"
+    lore:
+      - "&7고대의 물고기 철갑상어입니다."
+    min-size: 60.0
+    max-size: 300.0
+    avg-size: 150.0
+    weight: 12
+    double-enabled: true
+    commands: []
+
+  giant_catfish:
+    grade: d
+    item: "minecraft:cod"
+    material: "minecraft:cod"
+    mode: REFERENCE
+    name: "거대 메기"
+    display-name: "&9거대 메기"
+    lore:
+      - "&7전설처럼 큰 메기입니다."
+    min-size: 50.0
+    max-size: 250.0
+    avg-size: 130.0
+    weight: 10
+    double-enabled: true
+    commands: []
+
+  marlin:
+    grade: d
+    item: "minecraft:cod"
+    material: "minecraft:cod"
+    mode: REFERENCE
+    name: "청새치"
+    display-name: "&9청새치"
+    lore:
+      - "&7바다의 검사 청새치입니다."
+    min-size: 100.0
+    max-size: 400.0
+    avg-size: 250.0
+    weight: 8
+    double-enabled: true
+    commands: []
+
+  grouper:
+    grade: d
+    item: "minecraft:cod"
+    material: "minecraft:cod"
+    mode: REFERENCE
+    name: "다금바리"
+    display-name: "&9다금바리"
+    lore:
+      - "&7거대한 입을 가진 다금바리입니다."
+    min-size: 30.0
+    max-size: 120.0
+    avg-size: 70.0
+    weight: 6
+    double-enabled: true
+    commands: []
+
+  barracuda:
+    grade: d
+    item: "minecraft:salmon"
+    material: "minecraft:salmon"
+    mode: REFERENCE
+    name: "바라쿠다"
+    display-name: "&9바라쿠다"
+    lore:
+      - "&7날카로운 이빨의 바라쿠다입니다."
+    min-size: 40.0
+    max-size: 180.0
+    avg-size: 100.0
+    weight: 5
+    double-enabled: true
+    commands: []
+
+  arapaima:
+    grade: d
+    item: "minecraft:cod"
+    material: "minecraft:cod"
+    mode: REFERENCE
+    name: "아라파이마"
+    display-name: "&9아라파이마"
+    lore:
+      - "&7아마존의 거대한 물고기입니다."
+    min-size: 100.0
+    max-size: 350.0
+    avg-size: 200.0
+    weight: 3
+    double-enabled: true
+    commands: []
+
+  crystal_koi:
+    grade: d
+    item: "minecraft:tropical_fish"
+    material: "minecraft:tropical_fish"
+    mode: REFERENCE
+    name: "수정 비단잉어"
+    display-name: "&b수정 비단잉어"
+    lore:
+      - "&7수정처럼 투명한 비단잉어입니다."
+    min-size: 20.0
+    max-size: 60.0
+    avg-size: 35.0
+    weight: 1
+    double-enabled: true
+    commands: []
+
+  # ────────────────── C 등급 ──────────────────
+
+  whale_small:
+    grade: c
+    item: "minecraft:cod"
+    material: "minecraft:cod"
+    mode: REFERENCE
+    name: "작은 고래"
+    display-name: "&a작은 고래"
+    lore:
+      - "&7고래의 새끼입니다."
+    min-size: 200.0
+    max-size: 800.0
+    avg-size: 450.0
+    weight: 18
+    double-enabled: true
+    commands: []
+
+  giant_squid:
+    grade: c
+    item: "minecraft:cod"
+    material: "minecraft:cod"
+    mode: REFERENCE
+    name: "거대 오징어"
+    display-name: "&a거대 오징어"
+    lore:
+      - "&7심해의 거대 오징어입니다."
+    min-size: 100.0
+    max-size: 500.0
+    avg-size: 250.0
+    weight: 16
+    double-enabled: true
+    commands: []
+
+  manta_ray:
+    grade: c
+    item: "minecraft:cod"
+    material: "minecraft:cod"
+    mode: REFERENCE
+    name: "만타가오리"
+    display-name: "&a만타가오리"
+    lore:
+      - "&7우아하게 헤엄치는 만타가오리입니다."
+    min-size: 100.0
+    max-size: 400.0
+    avg-size: 200.0
+    weight: 14
+    double-enabled: true
+    commands: []
+
+  electric_eel:
+    grade: c
+    item: "minecraft:salmon"
+    material: "minecraft:salmon"
+    mode: REFERENCE
+    name: "전기뱀장어"
+    display-name: "&a전기뱀장어"
+    lore:
+      - "&7전기를 낿는 장어입니다."
+    min-size: 50.0
+    max-size: 200.0
+    avg-size: 120.0
+    weight: 12
+    double-enabled: true
+    commands: []
+
+  piranha_king:
+    grade: c
+    item: "minecraft:tropical_fish"
+    material: "minecraft:tropical_fish"
+    mode: REFERENCE
+    name: "피라니아 왕"
+    display-name: "&a피라니아 왕"
+    lore:
+      - "&7모든 피라니아를 다스리는 왕입니다."
+    min-size: 15.0
+    max-size: 40.0
+    avg-size: 25.0
+    weight: 10
+    double-enabled: true
+    commands: []
+
+  anglerfish:
+    grade: c
+    item: "minecraft:cod"
+    material: "minecraft:cod"
+    mode: REFERENCE
+    name: "아귀"
+    display-name: "&a아귀"
+    lore:
+      - "&7등불을 든 심해의 아귀입니다."
+    min-size: 20.0
+    max-size: 100.0
+    avg-size: 50.0
+    weight: 8
+    double-enabled: true
+    commands: []
+
+  coelacanth:
+    grade: c
+    item: "minecraft:cod"
+    material: "minecraft:cod"
+    mode: REFERENCE
+    name: "실러캔스"
+    display-name: "&a실러캔스"
+    lore:
+      - "&7살아있는 화석 실러캔스입니다."
+    min-size: 80.0
+    max-size: 200.0
+    avg-size: 130.0
+    weight: 6
+    double-enabled: true
+    commands: []
+
+  oarfish:
+    grade: c
+    item: "minecraft:salmon"
+    material: "minecraft:salmon"
+    mode: REFERENCE
+    name: "산갈치"
+    display-name: "&a산갈치"
+    lore:
+      - "&7용궁의 사신이라 불리는 산갈치입니다."
+    min-size: 200.0
+    max-size: 800.0
+    avg-size: 400.0
+    weight: 5
+    double-enabled: true
+    commands: []
+
+  sunfish:
+    grade: c
+    item: "minecraft:cod"
+    material: "minecraft:cod"
+    mode: REFERENCE
+    name: "개복치"
+    display-name: "&a개복치"
+    lore:
+      - "&7둥근 몸의 개복치입니다."
+    min-size: 100.0
+    max-size: 350.0
+    avg-size: 200.0
+    weight: 3
+    double-enabled: true
+    commands: []
+
+  jade_koi:
+    grade: c
+    item: "minecraft:tropical_fish"
+    material: "minecraft:tropical_fish"
+    mode: REFERENCE
+    name: "비취 비단잉어"
+    display-name: "&a비취 비단잉어"
+    lore:
+      - "&7비취처럼 푸른 비단잉어입니다."
+    min-size: 25.0
+    max-size: 70.0
+    avg-size: 40.0
+    weight: 1
+    double-enabled: true
+    commands: []
+
+  # ────────────────── B 등급 ──────────────────
+
+  megalodon:
+    grade: b
+    item: "minecraft:cod"
+    material: "minecraft:cod"
+    mode: REFERENCE
+    name: "메갈로돈"
+    display-name: "&5메갈로돈"
+    lore:
+      - "&7고대의 거대 상어 메갈로돈입니다."
+    min-size: 500.0
+    max-size: 2000.0
+    avg-size: 1200.0
+    weight: 20
+    double-enabled: false
+    commands: []
+
+  kraken_tentacle:
+    grade: b
+    item: "minecraft:salmon"
+    material: "minecraft:salmon"
+    mode: REFERENCE
+    name: "크라켄 촉수"
+    display-name: "&5크라켄 촉수"
+    lore:
+      - "&7크라켄의 거대한 촉수입니다."
+    min-size: 300.0
+    max-size: 1500.0
+    avg-size: 800.0
+    weight: 16
+    double-enabled: false
+    commands: []
+
+  leviathan:
+    grade: b
+    item: "minecraft:cod"
+    material: "minecraft:cod"
+    mode: REFERENCE
+    name: "리바이어던"
+    display-name: "&5리바이어던"
+    lore:
+      - "&7심해의 괴수 리바이어던입니다."
+    min-size: 400.0
+    max-size: 1800.0
+    avg-size: 1000.0
+    weight: 14
+    double-enabled: false
+    commands: []
+
+  ghost_whale:
+    grade: b
+    item: "minecraft:cod"
+    material: "minecraft:cod"
+    mode: REFERENCE
+    name: "유령 고래"
+    display-name: "&5유령 고래"
+    lore:
+      - "&7투명하게 빛나는 유령 고래입니다."
+    min-size: 300.0
+    max-size: 1200.0
+    avg-size: 700.0
+    weight: 12
+    double-enabled: false
+    commands: []
+
+  dragon_fish:
+    grade: b
+    item: "minecraft:tropical_fish"
+    material: "minecraft:tropical_fish"
+    mode: REFERENCE
+    name: "용어"
+    display-name: "&5용어"
+    lore:
+      - "&7용의 피를 이은 물고기입니다."
+    min-size: 50.0
+    max-size: 200.0
+    avg-size: 100.0
+    weight: 10
+    double-enabled: false
+    commands: []
+
+  abyssal_shark:
+    grade: b
+    item: "minecraft:cod"
+    material: "minecraft:cod"
+    mode: REFERENCE
+    name: "심해 상어"
+    display-name: "&5심해 상어"
+    lore:
+      - "&7심해의 끝에서 온 상어입니다."
+    min-size: 200.0
+    max-size: 800.0
+    avg-size: 450.0
+    weight: 8
+    double-enabled: false
+    commands: []
+
+  titan_grouper:
+    grade: b
+    item: "minecraft:cod"
+    material: "minecraft:cod"
+    mode: REFERENCE
+    name: "타이탄 다금바리"
+    display-name: "&5타이탄 다금바리"
+    lore:
+      - "&7산만큼 큰 다금바리입니다."
+    min-size: 100.0
+    max-size: 500.0
+    avg-size: 250.0
+    weight: 6
+    double-enabled: false
+    commands: []
+
+  void_eel:
+    grade: b
+    item: "minecraft:salmon"
+    material: "minecraft:salmon"
+    mode: REFERENCE
+    name: "공허 장어"
+    display-name: "&5공허 장어"
+    lore:
+      - "&7공허에서 떠돌아다니는 장어입니다."
+    min-size: 100.0
+    max-size: 600.0
+    avg-size: 300.0
+    weight: 5
+    double-enabled: false
+    commands: []
+
+  ancient_sturgeon:
+    grade: b
+    item: "minecraft:cod"
+    material: "minecraft:cod"
+    mode: REFERENCE
+    name: "고대 철갑상어"
+    display-name: "&5고대 철갑상어"
+    lore:
+      - "&7천 년을 산 철갑상어입니다."
+    min-size: 200.0
+    max-size: 700.0
+    avg-size: 400.0
+    weight: 3
+    double-enabled: false
+    commands: []
+
+  ruby_koi:
+    grade: b
+    item: "minecraft:tropical_fish"
+    material: "minecraft:tropical_fish"
+    mode: REFERENCE
+    name: "루비 비단잉어"
+    display-name: "&5루비 비단잉어"
+    lore:
+      - "&7루비처럼 붉게 빛나는 비단잉어입니다."
+    min-size: 30.0
+    max-size: 80.0
+    avg-size: 50.0
+    weight: 1
+    double-enabled: false
+    commands: []
+
+  # ────────────────── A 등급 ──────────────────
+
+  world_serpent:
+    grade: a
+    item: "minecraft:salmon"
+    material: "minecraft:salmon"
+    mode: REFERENCE
+    name: "세계뱀"
+    display-name: "&c세계뱀"
+    lore:
+      - "&7세상을 휘감는 전설의 뱀입니다."
+    min-size: 1000.0
+    max-size: 5000.0
+    avg-size: 2500.0
+    weight: 22
+    double-enabled: false
+    commands: []
+
+  celestial_whale:
+    grade: a
+    item: "minecraft:cod"
+    material: "minecraft:cod"
+    mode: REFERENCE
+    name: "천상 고래"
+    display-name: "&c천상 고래"
+    lore:
+      - "&7하늘을 유영하는 신성한 고래입니다."
+    min-size: 800.0
+    max-size: 3000.0
+    avg-size: 1500.0
+    weight: 18
+    double-enabled: false
+    commands: []
+
+  phoenix_fish:
+    grade: a
+    item: "minecraft:tropical_fish"
+    material: "minecraft:tropical_fish"
+    mode: REFERENCE
+    name: "불사조 물고기"
+    display-name: "&c불사조 물고기"
+    lore:
+      - "&7불꽃에서 다시 태어나는 물고기입니다."
+    min-size: 30.0
+    max-size: 100.0
+    avg-size: 60.0
+    weight: 14
+    double-enabled: false
+    commands: []
+
+  time_eel:
+    grade: a
+    item: "minecraft:salmon"
+    material: "minecraft:salmon"
+    mode: REFERENCE
+    name: "시간 장어"
+    display-name: "&c시간 장어"
+    lore:
+      - "&7시간을 넘나드는 장어입니다."
+    min-size: 100.0
+    max-size: 500.0
+    avg-size: 250.0
+    weight: 12
+    double-enabled: false
+    commands: []
+
+  storm_ray:
+    grade: a
+    item: "minecraft:cod"
+    material: "minecraft:cod"
+    mode: REFERENCE
+    name: "폭풍 가오리"
+    display-name: "&c폭풍 가오리"
+    lore:
+      - "&7폭풍우를 부르는 가오리입니다."
+    min-size: 200.0
+    max-size: 800.0
+    avg-size: 400.0
+    weight: 10
+    double-enabled: false
+    commands: []
+
+  crystal_leviathan:
+    grade: a
+    item: "minecraft:cod"
+    material: "minecraft:cod"
+    mode: REFERENCE
+    name: "수정 리바이어던"
+    display-name: "&c수정 리바이어던"
+    lore:
+      - "&7수정으로 이루어진 거대 괴수입니다."
+    min-size: 500.0
+    max-size: 2000.0
+    avg-size: 1000.0
+    weight: 8
+    double-enabled: false
+    commands: []
+
+  shadow_shark:
+    grade: a
+    item: "minecraft:cod"
+    material: "minecraft:cod"
+    mode: REFERENCE
+    name: "그림자 상어"
+    display-name: "&c그림자 상어"
+    lore:
+      - "&7그림자 속에서 사냥하는 상어입니다."
+    min-size: 300.0
+    max-size: 1000.0
+    avg-size: 550.0
+    weight: 6
+    double-enabled: false
+    commands: []
+
+  spirit_koi:
+    grade: a
+    item: "minecraft:tropical_fish"
+    material: "minecraft:tropical_fish"
+    mode: REFERENCE
+    name: "정령 비단잉어"
+    display-name: "&c정령 비단잉어"
+    lore:
+      - "&7숲의 정령이 깃든 비단잉어입니다."
+    min-size: 30.0
+    max-size: 100.0
+    avg-size: 55.0
+    weight: 5
+    double-enabled: false
+    commands: []
+
+  void_serpent:
+    grade: a
+    item: "minecraft:salmon"
+    material: "minecraft:salmon"
+    mode: REFERENCE
+    name: "공허 뱀"
+    display-name: "&c공허 뱀"
+    lore:
+      - "&7공허의 끝에서 온 뱀입니다."
+    min-size: 500.0
+    max-size: 3000.0
+    avg-size: 1500.0
+    weight: 3
+    double-enabled: false
+    commands: []
+
+  diamond_koi:
+    grade: a
+    item: "minecraft:tropical_fish"
+    material: "minecraft:tropical_fish"
+    mode: REFERENCE
+    name: "다이아몬드 비단잉어"
+    display-name: "&c다이아몬드 비단잉어"
+    lore:
+      - "&7다이아몬드처럼 빛나는 비단잉어입니다."
+    min-size: 35.0
+    max-size: 90.0
+    avg-size: 55.0
+    weight: 1
+    double-enabled: false
+    commands: []
+
+  # ────────────────── S 등급 ──────────────────
+
+  cosmic_serpent:
+    grade: s
+    item: "minecraft:salmon"
+    material: "minecraft:salmon"
+    mode: REFERENCE
+    name: "우주 뱀"
+    display-name: "&4우주 뱀"
+    lore:
+      - "&7은하수를 뒤엎는 우주의 뱀입니다."
+    min-size: 2000.0
+    max-size: 10000.0
+    avg-size: 5000.0
+    weight: 22
+    double-enabled: false
+    commands:
+
+  god_whale:
+    grade: s
+    item: "minecraft:cod"
+    material: "minecraft:cod"
+    mode: REFERENCE
+    name: "신 고래"
+    display-name: "&4신 고래"
+    lore:
+      - "&7신들의 사자로 불리는 고래입니다."
+    min-size: 1500.0
+    max-size: 8000.0
+    avg-size: 4000.0
+    weight: 18
+    double-enabled: false
+    commands:
+
+  eternal_dragon:
+    grade: s
+    item: "minecraft:salmon"
+    material: "minecraft:salmon"
+    mode: REFERENCE
+    name: "영원한 용"
+    display-name: "&4영원한 용"
+    lore:
+      - "&7영원불멸의 용이 물고기로 화현했습니다."
+    min-size: 500.0
+    max-size: 3000.0
+    avg-size: 1500.0
+    weight: 14
+    double-enabled: false
+    commands:
+
+  dimension_fish:
+    grade: s
+    item: "minecraft:tropical_fish"
+    material: "minecraft:tropical_fish"
+    mode: REFERENCE
+    name: "차원 물고기"
+    display-name: "&4차원 물고기"
+    lore:
+      - "&7다른 차원에서 온 물고기입니다."
+    min-size: 20.0
+    max-size: 80.0
+    avg-size: 40.0
+    weight: 12
+    double-enabled: false
+    commands: []
+
+  chaos_leviathan:
+    grade: s
+    item: "minecraft:cod"
+    material: "minecraft:cod"
+    mode: REFERENCE
+    name: "혼돈 리바이어던"
+    display-name: "&4혼돈 리바이어던"
+    lore:
+      - "&7혼돈의 바다를 다스리는 괴수입니다."
+    min-size: 1000.0
+    max-size: 5000.0
+    avg-size: 2500.0
+    weight: 10
+    double-enabled: false
+    commands:
+
+  infinity_eel:
+    grade: s
+    item: "minecraft:salmon"
+    material: "minecraft:salmon"
+    mode: REFERENCE
+    name: "무한 장어"
+    display-name: "&4무한 장어"
+    lore:
+      - "&7끝없이 길어 보이는 장어입니다."
+    min-size: 200.0
+    max-size: 2000.0
+    avg-size: 800.0
+    weight: 8
+    double-enabled: false
+    commands: []
+
+  primordial_shark:
+    grade: s
+    item: "minecraft:cod"
+    material: "minecraft:cod"
+    mode: REFERENCE
+    name: "원시 상어"
+    display-name: "&4원시 상어"
+    lore:
+      - "&7세상의 시작부터 살아온 상어입니다."
+    min-size: 500.0
+    max-size: 2500.0
+    avg-size: 1200.0
+    weight: 6
+    double-enabled: false
+    commands: []
+
+  astral_ray:
+    grade: s
+    item: "minecraft:cod"
+    material: "minecraft:cod"
+    mode: REFERENCE
+    name: "별빛 가오리"
+    display-name: "&4별빛 가오리"
+    lore:
+      - "&7별빛으로 만들어진 가오리입니다."
+    min-size: 300.0
+    max-size: 1500.0
+    avg-size: 700.0
+    weight: 5
+    double-enabled: false
+    commands: []
+
+  omega_koi:
+    grade: s
+    item: "minecraft:tropical_fish"
+    material: "minecraft:tropical_fish"
+    mode: REFERENCE
+    name: "오메가 비단잉어"
+    display-name: "&4오메가 비단잉어"
+    lore:
+      - "&7모든 비단잉어의 정점입니다."
+    min-size: 40.0
+    max-size: 120.0
+    avg-size: 70.0
+    weight: 3
+    double-enabled: false
+    commands: []
+
+  genesis_fish:
+    grade: s
+    item: "minecraft:tropical_fish"
+    material: "minecraft:tropical_fish"
+    mode: REFERENCE
+    name: "창세의 물고기"
+    display-name: "&4창세의 물고기"
+    lore:
+      - "&7세상 모든 생명의 기원이 된 물고기입니다."
+    min-size: 50.0
+    max-size: 150.0
+    avg-size: 80.0
+    weight: 1
+    double-enabled: false
+    commands:

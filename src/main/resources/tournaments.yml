@@ -1,0 +1,92 @@
+# ============================================================
+#  낚시 대회
+# ============================================================
+#  여러 대회가 **동시에** 돌 수 있습니다 (2세대와 같습니다). 낚은 한 마리는 참가 중인
+#  대회 전부에 점수가 됩니다.
+#
+#  열리기 전에는 **사전 신청**을 받습니다 — `/낚시 대회 참가 <id>` 또는 대회 화면에서 클릭.
+#  참가비는 신청할 때 걷고, 대회가 열리면 신청자가 자동으로 참가합니다. 진행 중에 들어와도 됩니다.
+#
+#    type              - GRADE(등급 점수) / SIZE(크기 합산) / COUNT(마릿수)
+#    grade             - GRADE 전용. 셀 등급 하나, 또는 all
+#    duration-minutes  - 진행 시간
+#    auto-start        - true 면 schedule 대로 자동으로 열립니다
+#    schedule          - DAILY / WEEKLY / NONE
+#    schedule-day      - WEEKLY 일 때 요일 (MONDAY~SUNDAY)
+#    schedule-time     - HH:MM (24시간제, 서버 시간대)
+#    min-players       - 자동 시작은 사전 신청이 이 인원에 못 미치면 열리지 않습니다(신청은 남습니다).
+#                        끝날 때 이보다 적게 남아 있으면 **보상 없이 접고 참가비를 돌려줍니다**
+#    entry-fee         - 참가비. Vault 가 있어야 동작합니다
+#    refund-on-leave   - 중도 퇴장 시 참가비 환불
+#    rewards           - 순위별 콘솔 명령어. 1st / 2nd / 3 처럼 적습니다
+#    participation-reward - 참가상. 점수를 못 낸 사람도 받습니다
+#
+#  ⚠ 서버를 **정상 종료**하면 진행 중인 대회는 그 자리에서 끝나고 보상이 나갑니다(2세대와
+#     같습니다). 비정상 종료(크래시) 때는 tournaments/active.yml 에서 이어집니다.
+#
+#  ⚠ 끝날 때 **접속 중이 아닌 참가자에게도** 명령어가 돕니다.
+#     오프라인에서 동작하는 명령어를 쓰세요 — 이코노미·메일 계열은 대개 되고,
+#     바닐라 give 는 실패합니다. 실패하면 콘솔에 경고가 남습니다.
+# ============================================================
+tournaments:
+
+  # 매주 일요일 저녁 8시. S등급만 점수가 됩니다.
+  weekly_grade_s:
+    name: "&c주간 S등급 대회"
+    description:
+      - "&7S등급 물고기를 낚아 점수를 획득하세요!"
+    type: GRADE
+    grade: s
+    duration-minutes: 60
+    auto-start: true
+    schedule: "WEEKLY"
+    schedule-day: "SUNDAY"
+    schedule-time: "20:00"
+    min-players: 2
+    max-players: 100
+    entry-fee: 0
+    refund-on-leave: true
+    rewards:
+      1st:
+        - "broadcast {player}님이 주간 S등급 대회에서 1위를 차지했습니다!"
+      2nd: []
+      3rd: []
+    participation-reward: []
+
+  # 매일 저녁 7시. 크기 합산이 가장 큰 사람이 이깁니다.
+  daily_size:
+    name: "&b일일 크기 대회"
+    description:
+      - "&7잡은 물고기의 크기를 모두 더합니다."
+      - "&7쓰레기는 점수가 되지 않습니다."
+    type: SIZE
+    duration-minutes: 30
+    auto-start: true
+    schedule: "DAILY"
+    schedule-time: "19:00"
+    min-players: 2
+    max-players: 100
+    entry-fee: 0
+    refund-on-leave: true
+    rewards:
+      1st:
+        - "broadcast {player}님이 일일 크기 대회에서 1위를 차지했습니다!"
+    participation-reward: []
+
+  # 관리자가 /낚시 대회시작 count_rush 로 직접 엽니다.
+  count_rush:
+    name: "&e마릿수 러시"
+    description:
+      - "&7무엇이든 많이 낚는 사람이 이깁니다."
+    type: COUNT
+    duration-minutes: 15
+    auto-start: false
+    schedule: "NONE"
+    min-players: 2
+    max-players: 100
+    entry-fee: 0
+    refund-on-leave: true
+    rewards:
+      1st:
+        - "broadcast {player}님이 마릿수 러시에서 1위를 차지했습니다!"
+    participation-reward: []

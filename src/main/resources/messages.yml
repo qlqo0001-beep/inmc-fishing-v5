@@ -1,0 +1,130 @@
+# ============================================================
+#  inmc-fishing — 메시지
+# ============================================================
+# MiniMessage 표기를 씁니다: <red>빨강</red>, <gradient:#a:#b>…</gradient>
+# 예전 색코드(&c, §c)도 그대로 읽히니 급하면 섞어 써도 됩니다.
+#
+# 줄을 통째로 지우면 내장 기본값이 나갑니다. 빈 문자열("")로 두면 그 메시지를 끕니다.
+#
+# 토큰은 한글/영문 둘 다 됩니다 — {물고기} = {fish}, {크기} = {size},
+# {등급} = {grade}, {남은시간} = {remaining} …
+#
+# ⚠ 이 파일의 키 목록은 코드의 기본값 표와 **정확히 일치해야** 합니다.
+#   `ResourceTest` 가 그걸 지킵니다 — 한쪽에만 있는 키는 관리자가 고쳐도 안 나오거나,
+#   코드가 찾는데 파일에 없는 키입니다.
+prefix: "<gradient:#3fb6ff:#9be7ff>[ 낚시 ]</gradient> "
+
+# --- 낚시 기본 ---
+bite: "<yellow>입질이 왔습니다! 순서대로 클릭하세요.</yellow>"
+caught: "{grade} <white>{fish}</white> <gray>({size}cm)</gray> <green>를 낚았습니다!</green>"
+caught-no-size: "{grade} <white>{fish}</white> <green>를 낚았습니다!</green>"
+escaped: "<red>물고기가 도망갔습니다...</red>"
+double: "<aqua>운이 좋군요! 두 마리를 낚았습니다.</aqua>"
+big-fish: "<gold>대어! 이 종의 가장 큰 개체가 걸렸습니다 — 트로피 확정!</gold>"
+inventory-full: "<red>인벤토리에 빈 칸이 없습니다.</red>"
+world-not-allowed: "<red>이 월드에서는 낚시를 할 수 없습니다.</red>"
+region-blocked: "<red>이 구역에서는 낚시할 수 없습니다.</red>"
+disabled: "<red>낚시 기능이 꺼져 있습니다.</red>"
+
+# --- 미니게임 ---
+minigame-on: "<green>미니게임을 켰습니다.</green>"
+minigame-off: "<yellow>미니게임을 껐습니다. 이제 자동으로 낚입니다.</yellow>"
+minigame-locked: "<red>피로도가 부족해 자동 낚시를 할 수 없습니다.</red>"
+
+# --- 트로피 ---
+trophy: "<gold>트로피! <white>{fish}</white> <gray>({size}cm)</gray></gold>"
+rare-trophy: "<light_purple>레어 트로피! <white>{fish}</white> <gray>({size}cm)</gray></light_purple>"
+trophy-broadcast: "<gold>{player} 님이 {fish} 트로피({size}cm)를 낚았습니다!</gold>"
+rare-trophy-broadcast: "<light_purple>{player} 님이 {fish} 레어 트로피({size}cm)를 낚았습니다!</light_purple>"
+
+# --- 힘겨루기 ---
+fight-line-snapped: "<red>줄이 끊겼네..</red>"
+fight-distance: "<red>줄 길이가 부족하네..</red>"
+fight-reel-broken: "<red>릴이 고장났네..</red>"
+fight-timeout: "<red>시간이 초과되어 놓쳤네..</red>"
+title-success: "&f잡았다!"
+title-success-sub: "&a{sequence}"
+title-fail: "&f물고기가 도망갔네.."
+title-timeout: "&f물고기가 도망갔네.."
+title-fail-sub: "&cL : 좌클릭 R : 우클릭"
+fight-practice-win: "<yellow>[연습모드]</yellow> <gray>파이트 연습을 완료했습니다. (보상은 지급되지 않습니다.)</gray>"
+practice-on-title: "&e&l연습모드 ON"
+practice-on-subtitle: "&7보상 없이 트로피 파이트 연습"
+practice-off-title: "&7연습모드 OFF"
+show-broadcast: "<gold>[ 낚시 ]</gold> <white>{player}</white><gray> 님이 </gray>{grade} <white>{fish}</white><gray> ({size}cm) 을(를) 자랑합니다!</gray> {value}"
+show-hold-fish: "<red>자랑할 물고기를 손에 들어 주세요.</red>"
+stats-header: "<gray>────── <aqua>내 낚시 스탯</aqua> ──────</gray>"
+
+# --- 도감 ---
+collection-registered: "<green>{fish} 를 도감에 등록했습니다. ({count}/{amount})</green>"
+collection-full: "<yellow>{fish} 도감이 이미 가득 찼습니다.</yellow>"
+collection-perfect: "<gold>{fish} 도감을 퍼펙트 완성했습니다!</gold>"
+collection-need-item: "<red>등록할 {fish} 가 없습니다.</red>"
+collection-first: "<aqua>{fish} 를 처음으로 도감에 등록했습니다!</aqua>"
+
+# --- 어망 ---
+net-full: "<red>어망이 가득 찼습니다. ({amount}마리)</red>"
+net-stored: "<green>{fish} 를 어망에 넣었습니다.</green>"
+net-taken: "<green>{fish} 를 어망에서 꺼냈습니다.</green>"
+net-empty: "<gray>어망이 비어 있습니다.</gray>"
+
+# --- 피로도 ---
+fatigue-status: "<gray>피로도: <white>{count}</white> / {amount}</gray>"
+fatigue-restored: "<green>피로도를 {amount} 회복했습니다.</green>"
+fatigue-unlocked: "<green>피로도가 회복되어 다시 자동 낚시를 쓸 수 있습니다.</green>"
+waiting: "<green>물고기를 기다리는 중~</green> <white>{fish}</white>"
+waiting-auto: " <dark_gray>|</dark_gray> <white>자동 낚시 모드</white> <dark_gray>|</dark_gray> <aqua>피로도 {count}</aqua>"
+auto-countdown: "<yellow>{seconds} 초</yellow><gray> 후 낚음...</gray> {grade} <gray>{fish}</gray> <dark_gray>|</dark_gray> <aqua>피로도 {count}</aqua>"
+unregistered-rod: "<red>등록되지 않은 낚싯대로는 낚시할 수 없습니다.</red>"
+
+# --- 손질 ---
+fillet-started: "<green>{fish} 손질을 시작했습니다. ({seconds}초)</green>"
+fillet-done: "<green>손질이 끝났습니다. {fish} {amount}개를 받았습니다.</green>"
+fillet-no-room: "<red>손질대에 빈 자리가 없습니다.</red>"
+
+# --- 대회 ---
+tournament-started: "<gold>{tournament} 가 시작되었습니다! <gray>사전 신청자는 자동으로 참가했습니다.</gray></gold>"
+tournament-ended: "<gold>{tournament} 가 끝났습니다.</gold>"
+tournament-joined: "<green>{tournament} 에 참가했습니다.</green>"
+tournament-left: "<yellow>{tournament} 에서 나왔습니다.</yellow>"
+tournament-already-joined: "<red>이미 참가 중입니다.</red>"
+tournament-full: "<red>참가 인원이 가득 찼습니다.</red>"
+tournament-not-running: "<red>진행 중인 대회가 없습니다.</red>"
+tournament-fee-short: "<red>참가비가 부족합니다. ({amount})</red>"
+tournament-result: "<gold>{tournament} {rank}위 — {player} ({score})</gold>"
+tournament-started-fee: "<gold>{tournament} 가 시작되었습니다! <yellow>(참가비: {amount})</yellow> <gray>사전 신청자는 자동으로 참가했습니다.</gray></gold>"
+tournament-applied: "<green>{tournament} 에 사전 신청했습니다. 열리면 자동으로 참가합니다.</green>"
+tournament-already-applied: "<red>이미 사전 신청한 대회입니다.</red>"
+tournament-not-applied: "<red>신청하지 않은 대회입니다.</red>"
+tournament-application-cancelled: "<yellow>{tournament} 사전 신청을 취소했습니다.</yellow>"
+tournament-not-participating: "<red>참가 중인 대회가 아닙니다.</red>"
+tournament-no-economy: "<red>참가비를 처리할 Vault 이코노미가 연결되지 않았습니다.</red>"
+tournament-not-found: "<red>없는 대회입니다.</red>"
+tournament-list-header: "<gray>────── <aqua>낚시 대회</aqua> ──────</gray>"
+tournament-list-line: "<gray>· <white>{id}</white> {tournament} <dark_gray>({value})</dark_gray></gray>"
+tournament-wins-header: "<gray>────── <gold>대회 우승 순위</gold> ──────</gray>"
+tournament-wins-line: "<gray>{rank}. <white>{player}</white> — <gold>{count}회</gold></gray>"
+tournament-no-wins: "<dark_gray>아직 우승자가 없습니다.</dark_gray>"
+
+# --- 랭킹 ---
+rank-reward-received: "<gold>{subject} {rank}위 보상을 받았습니다!</gold>"
+rank-none: "<gray>아직 순위에 오르지 않았습니다.</gray>"
+
+# --- 명령어 공통 ---
+no-permission: "<red>권한이 없습니다.</red>"
+player-only: "<red>이 명령어는 플레이어만 사용할 수 있습니다.</red>"
+not-ready: "<gray>플러그인이 아직 준비 중입니다. 잠시 후 다시 시도해주세요.</gray>"
+usage: "<gray>/낚시 <white>[도감|어망|랭킹|대회|피로도|손질|미니게임]</white></gray>"
+reloaded: "<green>설정을 다시 불러왔습니다.</green>"
+unknown-fish: "<red>'{fish}' 라는 물고기가 없습니다.</red>"
+player-not-found: "<red>'{player}' 을(를) 찾을 수 없습니다.</red>"
+given: "<green>{player} 에게 {fish} {amount}개를 지급했습니다.</green>"
+hand-empty: "<red>손에 아이템을 들고 있어야 합니다.</red>"
+registered: "<green>손에 든 아이템을 '{fish}' 로 등록했습니다.</green>"
+unregistered: "<green>'{fish}' 등록을 해제했습니다.</green>"
+
+# --- 프롬프트 (core ChatPrompt 가 요구하는 네 키) ---
+prompt-enter: "<yellow>채팅으로 값을 입력하세요. <gray>(취소: 취소)</gray></yellow>"
+prompt-cancelled: "<gray>입력을 취소했습니다.</gray>"
+prompt-timeout: "<gray>입력 시간이 지났습니다.</gray>"
+prompt-invalid-number: "<red>숫자를 입력해주세요.</red>"

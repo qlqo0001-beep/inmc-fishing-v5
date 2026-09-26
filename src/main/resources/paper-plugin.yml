@@ -1,0 +1,30 @@
+name: inmc-fishing
+version: '${version}'
+main: com.inmc.fishing.FishingPlugin
+api-version: '${apiVersion}'   # build.gradle.kts 의 inmc { paper } 에서 유도됨
+description: 등급별 미니게임 · 도감 · 트로피 힘겨루기 · 대회를 갖춘 낚시 플러그인
+authors: [ INMC ]
+
+# 연동은 전부 load: OMIT 이다. BEFORE 를 걸면 Paper 가 의존성 순환을 보고 우리 간선을
+# 조용히 끊는다 (가이드 함정 1).
+dependencies:
+  server:
+    # 필수 의존은 이것 하나뿐. core 가 kotlin-stdlib 과 공용 프레임워크를 들고 있다.
+    inmc-core:      { load: BEFORE, required: true,  join-classpath: true }
+    PlaceholderAPI: { load: OMIT,   required: false, join-classpath: true }
+    Vault:          { load: OMIT,   required: false, join-classpath: true }
+    WorldGuard:     { load: OMIT,   required: false, join-classpath: true }
+    MMOItems:       { load: OMIT,   required: false, join-classpath: true }
+    MythicLib:      { load: OMIT,   required: false, join-classpath: true }
+
+# commands 절은 paper-plugin.yml 에 없다 - Brigadier 로 등록한다.
+# 2세대 plugin.yml 의 두 권한을 기본값·상속까지 그대로 옮긴다.
+permissions:
+  infishing.user:
+    description: 낚시 일반 명령 (도감·어망·손질·랭킹·대회·피로도·미니게임)
+    default: true
+  infishing.admin:
+    description: 낚시 관리 권한 전체
+    default: op
+    children:
+      infishing.user: true
