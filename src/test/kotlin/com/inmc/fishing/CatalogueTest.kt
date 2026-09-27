@@ -17,6 +17,7 @@ import java.io.InputStreamReader
 import java.nio.charset.StandardCharsets
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
@@ -270,9 +271,9 @@ class CatalogueTest {
         val loaded = com.inmc.fishing.fight.FightSettings.load(load("fight.yml"))
         val defaults = com.inmc.fishing.fight.FightSettings()
 
-        assertTrue(loaded.hud.betterHud, "2세대 배포본처럼 betterhud")
+        assertFalse(loaded.hud.betterHud, "배포값은 vanilla — 보스바·액션바·상태 타이틀(2세대 1.6.0)")
         // 배포본은 상태 이름을 적어 두고 코드는 enum 이름으로 되짚는다 — 보이는 이름이 같으면 된다.
-        assertEquals(defaults.hud, loaded.hud.copy(betterHud = false, stateNames = emptyMap()))
+        assertEquals(defaults.hud, loaded.hud.copy(stateNames = emptyMap()))
         for (state in com.inmc.fishing.fight.FishState.entries) assertEquals(defaults.hud.stateName(state), loaded.hud.stateName(state), "$state 이름")
         assertEquals(defaults.general, loaded.general)
         assertEquals(defaults.ai.states, loaded.ai.states)

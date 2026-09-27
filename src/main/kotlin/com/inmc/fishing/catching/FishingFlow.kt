@@ -2,6 +2,7 @@ package com.inmc.fishing.catching
 
 import com.inmc.fishing.Fishing
 import com.inmc.fishing.fight.Fight
+import com.inmc.fishing.fight.FightKeys
 import com.inmc.fishing.fight.FightOutcome
 import com.inmc.fishing.fight.FishState
 import com.inmc.fishing.fish.Catch
@@ -148,8 +149,12 @@ class FishingFlow(private val fishing: Fishing) {
      */
     fun keys(angler: Angler, forward: Boolean, backward: Boolean, now: Long) {
         val session = angler.fight ?: return
-        if (forward && !backward && !session.forward) session.fight.registerReel(now)
-        if (backward && !forward && !session.backward) session.fight.registerRelease(now)
+        // W 를 쥔 채 S 를 눌렀다 떼도 다시 감긴다(FightKeys) — 손가락을 굴려 방향을 바꿀 수 있게.
+        when (FightKeys.pressed(session.forward, session.backward, forward, backward)) {
+            FightKeys.Press.REEL -> session.fight.registerReel(now)
+            FightKeys.Press.RELEASE -> session.fight.registerRelease(now)
+            null -> Unit
+        }
         session.forward = forward
         session.backward = backward
     }
@@ -305,9 +310,10 @@ class FishingFlow(private val fishing: Fishing) {
         session.ticks++
 
         if (exhaustedNow) sound(player, settings.sound.fishExhausted)
+        // 상태 타이틀은 매 틱 다시 보낸다 — 한 번만 보내면 긴 상태(휴식 등)에서 상태가 안 바뀌었는데 타이틀이 먼저 꺼진다.
+        // betterhud 에서도 그린다(사용자 결정 2026-09-27 — "좌우클릭 미니게임을 2세대처럼 타이틀에") — 할 일이 가운데 떠야 한다.
+        stateTitle(player, fight)
         if (!settings.hud.betterHud) {
-            // 상태 타이틀은 매 틱 다시 보낸다 — 한 번만 보내면 긴 상태(휴식 등)에서 상태가 안 바뀌었는데 타이틀이 먼저 꺼진다.
-            stateTitle(player, fight)
             updateBossBar(player, session)
             actionBar(player, fight)
         }

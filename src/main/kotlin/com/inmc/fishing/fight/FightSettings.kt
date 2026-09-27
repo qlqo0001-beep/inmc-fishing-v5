@@ -95,7 +95,7 @@ data class FightSettings(
     data class Guide(val title: String, val subtitle: String)
 
     data class Hud(
-        /** `mode: betterhud` — 보스바·액션바·상태 타이틀을 그리지 않는다. BetterHud 가 `%inmcfishing_fight_*%` 로 그린다. */
+        /** `mode: betterhud` — 보스바·액션바를 그리지 않는다(상태 타이틀은 그린다). BetterHud 가 `%inmcfishing_fight_*%` 로 그린다. */
         val betterHud: Boolean = false,
         val barColorSafe: String = "&a",
         val barColorWarning: String = "&e",
@@ -227,17 +227,17 @@ data class FightSettings(
         )
 
         val DEFAULT_GUIDES: Map<FishState, Guide> = mapOf(
-            FishState.REST to Guide("&a🐟 휴식 ({remaining_seconds}초)", "&2좌클릭으로 감기! 지금이 기회"),
-            FishState.SLOW_MOVE to Guide("&e🐟 천천히 이동 ({remaining_seconds}초)", "&6좌클릭 연타! 최대 회수"),
+            FishState.REST to Guide("&a🐟 휴식 ({remaining_seconds}초)", "&2좌클릭·W 로 감기! 지금이 기회"),
+            FishState.SLOW_MOVE to Guide("&e🐟 천천히 이동 ({remaining_seconds}초)", "&6좌클릭·W 연타! 최대 회수"),
             FishState.NORMAL_MOVE to Guide("&f🐟 이동 ({remaining_seconds}초)", "&7천천히 감으며 장력 확인!"),
             FishState.TURN to Guide("&e🐟 방향 전환 ({remaining_seconds}초)", "&e장력 상승! 무리하지 마세요."),
-            FishState.CHARGE to Guide("&6🐟 돌진! ({remaining_seconds}초)", "&6우클릭으로 줄을 풀어주세요!"),
+            FishState.CHARGE to Guide("&6🐟 돌진! ({remaining_seconds}초)", "&6우클릭·S 로 줄을 풀어주세요!"),
             FishState.FINAL_STRUGGLE to Guide("&c🐟 최후의 발악! ({remaining_seconds}초)", "&c버티면서 줄 장력을 관리하세요!"),
-            FishState.DIVE to Guide("&3🐟 잠수! ({remaining_seconds}초)", "&3우클릭 연타로 버티세요!"),
-            FishState.EXHAUSTED to Guide("&7🐟 탈진! ({remaining_seconds}초)", "&2좌클릭 연타로 마무리하세요!"),
-            FishState.CIRCLE to Guide("&8🐟 원형 유영 ({remaining_seconds}초)", "&7좌우 클릭을 번갈아 누르세요."),
-            FishState.JUMP to Guide("&e🐟 점프! ({remaining_seconds}초)", "&7지금은 클릭을 멈추세요"),
-            FishState.LINE_TANGLE to Guide("&c🐟 줄 엉킴!", "&c우클릭으로 줄을 풀어주세요!"),
+            FishState.DIVE to Guide("&3🐟 잠수! ({remaining_seconds}초)", "&3우클릭·S 연타로 버티세요!"),
+            FishState.EXHAUSTED to Guide("&7🐟 탈진! ({remaining_seconds}초)", "&2좌클릭·W 연타로 마무리하세요!"),
+            FishState.CIRCLE to Guide("&8🐟 원형 유영 ({remaining_seconds}초)", "&7좌우 클릭(W·S)을 번갈아 누르세요."),
+            FishState.JUMP to Guide("&e🐟 점프! ({remaining_seconds}초)", "&7지금은 클릭·키를 멈추세요"),
+            FishState.LINE_TANGLE to Guide("&c🐟 줄 엉킴!", "&c우클릭·S 로 줄을 풀어주세요!"),
             FishState.STUNNED to Guide("&7🐟 기절!", "&a거리가 0이 될 때까지 감으세요!"),
         )
 

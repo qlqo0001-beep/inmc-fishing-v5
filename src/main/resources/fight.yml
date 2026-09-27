@@ -308,11 +308,11 @@ trophy-fight:
     # HUD 표시 방식
     #   vanilla   = 기본. 보스바/액션바/타이틀 텍스트 HUD (아래 설정 사용)
     #   betterhud = BetterHud + ItemsAdder 리소스팩 그래픽 HUD.
-    #               이 플러그인은 파이트 중 보스바/액션바/타이틀을 출력하지 않고,
+    #               이 플러그인은 파이트 중 보스바/액션바를 출력하지 않고,
     #               %inmcfishing_fight_*% 플레이스홀더(PlaceholderAPI)로 수치만 노출합니다.
     #               BetterHud 미설치/리소스팩 문제 시 vanilla로 되돌리면 즉시 롤백됩니다.
-    #               (시작 인트로 !!!/3/2/1/START!! 연출은 모드와 무관하게 유지)
-    mode: betterhud
+    #               (상태 타이틀과 시작 인트로 !!!/3/2/1/START!! 연출은 모드와 무관하게 유지)
+    mode: vanilla
     # BossBar 게이지 색상 (Tension 위험도 표시)
     bar-color-safe: "&a"       # 안정 (초록)
     bar-color-warning: "&e"    # 주의 (노랑)
@@ -381,10 +381,10 @@ trophy-fight:
     state-guide:
       rest:
         title: "&a🐟 휴식 ({remaining_seconds}초)"
-        subtitle: "&2좌클릭으로 감기! 지금이 기회"
+        subtitle: "&2좌클릭·W 로 감기! 지금이 기회"
       slow-move:
         title: "&e🐟 천천히 이동 ({remaining_seconds}초)"
-        subtitle: "&6좌클릭 연타! 최대 회수"
+        subtitle: "&6좌클릭·W 연타! 최대 회수"
       normal-move:
         title: "&f🐟 이동 ({remaining_seconds}초)"
         subtitle: "&7천천히 감으며 장력 확인!"
@@ -393,25 +393,25 @@ trophy-fight:
         subtitle: "&e장력 상승! 무리하지 마세요."
       charge:
         title: "&6🐟 돌진! ({remaining_seconds}초)"
-        subtitle: "&6우클릭으로 줄을 풀어주세요!"
+        subtitle: "&6우클릭·S 로 줄을 풀어주세요!"
       final-struggle:
         title: "&c🐟 최후의 발악! ({remaining_seconds}초)"
         subtitle: "&c버티면서 줄 장력을 관리하세요!"
       dive:
         title: "&3🐟 잠수! ({remaining_seconds}초)"
-        subtitle: "&3우클릭 연타로 버티세요!"
+        subtitle: "&3우클릭·S 연타로 버티세요!"
       exhausted:
         title: "&7🐟 탈진! ({remaining_seconds}초)"
-        subtitle: "&2좌클릭 연타로 마무리하세요!"
+        subtitle: "&2좌클릭·W 연타로 마무리하세요!"
       circle:
         title: "&8🐟 원형 유영 ({remaining_seconds}초)"
-        subtitle: "&7좌우 클릭을 번갈아 누르세요."
+        subtitle: "&7좌우 클릭(W·S)을 번갈아 누르세요."
       jump:
         title: "&e🐟 점프! ({remaining_seconds}초)"
-        subtitle: "&7지금은 클릭을 멈추세요"
+        subtitle: "&7지금은 클릭·키를 멈추세요"
       line-tangle:
         title: "&c🐟 줄 엉킴!"
-        subtitle: "&c우클릭으로 줄을 풀어주세요!"
+        subtitle: "&c우클릭·S 로 줄을 풀어주세요!"
       stunned:
         title: "&7🐟 기절!"
         subtitle: "&a거리가 0이 될 때까지 감으세요!"
