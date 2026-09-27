@@ -381,10 +381,10 @@ trophy-fight:
     state-guide:
       rest:
         title: "&a🐟 휴식 ({remaining_seconds}초)"
-        subtitle: "&2좌클릭으로 감기! 지금이 기회"
+        subtitle: "&2좌클릭·W 로 감기! 지금이 기회"
       slow-move:
         title: "&e🐟 천천히 이동 ({remaining_seconds}초)"
-        subtitle: "&6좌클릭 연타! 최대 회수"
+        subtitle: "&6좌클릭·W 연타! 최대 회수"
       normal-move:
         title: "&f🐟 이동 ({remaining_seconds}초)"
         subtitle: "&7천천히 감으며 장력 확인!"
@@ -393,25 +393,25 @@ trophy-fight:
         subtitle: "&e장력 상승! 무리하지 마세요."
       charge:
         title: "&6🐟 돌진! ({remaining_seconds}초)"
-        subtitle: "&6우클릭으로 줄을 풀어주세요!"
+        subtitle: "&6우클릭·S 로 줄을 풀어주세요!"
       final-struggle:
         title: "&c🐟 최후의 발악! ({remaining_seconds}초)"
         subtitle: "&c버티면서 줄 장력을 관리하세요!"
       dive:
         title: "&3🐟 잠수! ({remaining_seconds}초)"
-        subtitle: "&3우클릭 연타로 버티세요!"
+        subtitle: "&3우클릭·S 연타로 버티세요!"
       exhausted:
         title: "&7🐟 탈진! ({remaining_seconds}초)"
-        subtitle: "&2좌클릭 연타로 마무리하세요!"
+        subtitle: "&2좌클릭·W 연타로 마무리하세요!"
       circle:
         title: "&8🐟 원형 유영 ({remaining_seconds}초)"
-        subtitle: "&7좌우 클릭을 번갈아 누르세요."
+        subtitle: "&7좌우 클릭(W·S)을 번갈아 누르세요."
       jump:
         title: "&e🐟 점프! ({remaining_seconds}초)"
-        subtitle: "&7지금은 클릭을 멈추세요"
+        subtitle: "&7지금은 클릭·키를 멈추세요"
       line-tangle:
         title: "&c🐟 줄 엉킴!"
-        subtitle: "&c우클릭으로 줄을 풀어주세요!"
+        subtitle: "&c우클릭·S 로 줄을 풀어주세요!"
       stunned:
         title: "&7🐟 기절!"
         subtitle: "&a거리가 0이 될 때까지 감으세요!"

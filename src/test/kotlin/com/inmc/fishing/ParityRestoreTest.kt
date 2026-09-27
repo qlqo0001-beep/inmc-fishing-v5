@@ -2,6 +2,7 @@ package com.inmc.fishing
 
 import com.inmc.fishing.catching.RandomRolls
 import com.inmc.fishing.fight.Fight
+import com.inmc.fishing.fight.FightKeys
 import com.inmc.fishing.fight.FightOutcome
 import com.inmc.fishing.fight.FightSettings
 import com.inmc.fishing.fish.RollEngine
@@ -115,6 +116,25 @@ class ParityRestoreTest {
 
         fight.holdRelease(1_400L)
         assertTrue(fight.isReleasing(1_700L), "S 를 누르고 있으면 풀기가 이어진다")
+    }
+
+    @Test
+    fun `W·S 를 누른 순간은 한쪽만 눌린 상태로 새로 들어갈 때다`() {
+        fun press(was: Pair<Boolean, Boolean>, now: Pair<Boolean, Boolean>) = FightKeys.pressed(was.first, was.second, now.first, now.second)
+        val none = false to false
+        val w = true to false
+        val s = false to true
+        val both = true to true
+
+        assertEquals(FightKeys.Press.REEL, press(none, w), "W 누름 = 좌클릭 하나")
+        assertEquals(FightKeys.Press.RELEASE, press(none, s), "S 누름 = 우클릭 하나")
+        assertNull(press(w, w), "쥐고 있는 것은 누른 순간이 아니다")
+        assertNull(press(w, both), "둘 다 누르면 아무 쪽도 아니다")
+        assertNull(press(w, none), "떼는 것은 누른 순간이 아니다")
+        // 손가락을 굴려 방향을 바꾼다 — W 를 쥔 채 S 를 눌렀다 떼면 다시 감긴다(전에는 W 를 떼고 다시 눌러야 했다)
+        assertEquals(FightKeys.Press.REEL, press(both, w))
+        assertEquals(FightKeys.Press.RELEASE, press(both, s))
+        assertEquals(FightKeys.Press.RELEASE, press(w, s))
     }
 
     // --- 시뮬레이션 (2세대 /fishing simulate) -------------------------------------------

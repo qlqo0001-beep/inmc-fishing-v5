@@ -2,6 +2,7 @@ package com.inmc.fishing.catching
 
 import com.inmc.fishing.Fishing
 import com.inmc.fishing.fight.Fight
+import com.inmc.fishing.fight.FightKeys
 import com.inmc.fishing.fight.FightOutcome
 import com.inmc.fishing.fight.FishState
 import com.inmc.fishing.fish.Catch
@@ -148,8 +149,12 @@ class FishingFlow(private val fishing: Fishing) {
      */
     fun keys(angler: Angler, forward: Boolean, backward: Boolean, now: Long) {
         val session = angler.fight ?: return
-        if (forward && !backward && !session.forward) session.fight.registerReel(now)
-        if (backward && !forward && !session.backward) session.fight.registerRelease(now)
+        // W 를 쥔 채 S 를 눌렀다 떼도 다시 감긴다(FightKeys) — 손가락을 굴려 방향을 바꿀 수 있게.
+        when (FightKeys.pressed(session.forward, session.backward, forward, backward)) {
+            FightKeys.Press.REEL -> session.fight.registerReel(now)
+            FightKeys.Press.RELEASE -> session.fight.registerRelease(now)
+            null -> Unit
+        }
         session.forward = forward
         session.backward = backward
     }
