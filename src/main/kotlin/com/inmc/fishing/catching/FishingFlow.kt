@@ -305,9 +305,10 @@ class FishingFlow(private val fishing: Fishing) {
         session.ticks++
 
         if (exhaustedNow) sound(player, settings.sound.fishExhausted)
+        // 상태 타이틀은 매 틱 다시 보낸다 — 한 번만 보내면 긴 상태(휴식 등)에서 상태가 안 바뀌었는데 타이틀이 먼저 꺼진다.
+        // betterhud 에서도 그린다(사용자 결정 2026-09-27 — "좌우클릭 미니게임을 2세대처럼 타이틀에") — 할 일이 가운데 떠야 한다.
+        stateTitle(player, fight)
         if (!settings.hud.betterHud) {
-            // 상태 타이틀은 매 틱 다시 보낸다 — 한 번만 보내면 긴 상태(휴식 등)에서 상태가 안 바뀌었는데 타이틀이 먼저 꺼진다.
-            stateTitle(player, fight)
             updateBossBar(player, session)
             actionBar(player, fight)
         }

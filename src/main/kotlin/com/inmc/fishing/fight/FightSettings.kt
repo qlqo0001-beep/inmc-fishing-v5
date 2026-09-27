@@ -95,7 +95,7 @@ data class FightSettings(
     data class Guide(val title: String, val subtitle: String)
 
     data class Hud(
-        /** `mode: betterhud` — 보스바·액션바·상태 타이틀을 그리지 않는다. BetterHud 가 `%inmcfishing_fight_*%` 로 그린다. */
+        /** `mode: betterhud` — 보스바·액션바를 그리지 않는다(상태 타이틀은 그린다). BetterHud 가 `%inmcfishing_fight_*%` 로 그린다. */
         val betterHud: Boolean = false,
         val barColorSafe: String = "&a",
         val barColorWarning: String = "&e",

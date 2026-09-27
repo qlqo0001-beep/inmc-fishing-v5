@@ -308,11 +308,11 @@ trophy-fight:
     # HUD 표시 방식
     #   vanilla   = 기본. 보스바/액션바/타이틀 텍스트 HUD (아래 설정 사용)
     #   betterhud = BetterHud + ItemsAdder 리소스팩 그래픽 HUD.
-    #               이 플러그인은 파이트 중 보스바/액션바/타이틀을 출력하지 않고,
+    #               이 플러그인은 파이트 중 보스바/액션바를 출력하지 않고,
     #               %inmcfishing_fight_*% 플레이스홀더(PlaceholderAPI)로 수치만 노출합니다.
     #               BetterHud 미설치/리소스팩 문제 시 vanilla로 되돌리면 즉시 롤백됩니다.
-    #               (시작 인트로 !!!/3/2/1/START!! 연출은 모드와 무관하게 유지)
-    mode: betterhud
+    #               (상태 타이틀과 시작 인트로 !!!/3/2/1/START!! 연출은 모드와 무관하게 유지)
+    mode: vanilla
     # BossBar 게이지 색상 (Tension 위험도 표시)
     bar-color-safe: "&a"       # 안정 (초록)
     bar-color-warning: "&e"    # 주의 (노랑)

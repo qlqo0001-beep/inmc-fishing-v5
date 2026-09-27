@@ -98,9 +98,10 @@
 | MMOItems · ItemsAdder · Nexo · Oraxen · 커스텀아이템 | 물고기·낚싯대·미끼로 등록. 커스텀아이템의 `fishing.*` 값으로 낚싯대를 만들 수도 있습니다 |
 | 업적(inmc-achievements) | 낚기·도감 등록·대회 순위가 업적 조건이 됩니다 |
 
-**힘겨루기 화면**은 `fight.yml` 의 `hud.mode` 입니다. 배포값은 2세대와 같은 `betterhud` — 보스바·액션바·상태 타이틀을
-그리지 않고 BetterHud 가 `%inmcfishing_fight_*%` 로 그립니다(BetterHud 의 `inmc_fight` 레이아웃). **BetterHud 가 없으면
-`vanilla` 로 바꾸세요** — 안 그러면 힘겨루기 중 화면에 아무것도 안 뜹니다. 위험도(`fight_danger` 등)는 0/1/2, 유예 중이면 3 입니다.
+**힘겨루기 화면**은 `fight.yml` 의 `hud.mode` 입니다. 배포값은 `vanilla` — 2세대처럼 가운데 **상태 타이틀**(상태 · 남은 초 · 할 일),
+보스바(장력·거리), 액션바를 그립니다. `betterhud` 로 바꾸면 보스바·액션바는 BetterHud 가 `%inmcfishing_fight_*%` 로 그리고
+(BetterHud 의 `inmc_fight` 레이아웃) 상태 타이틀은 그대로 뜹니다. 위험도(`fight_danger` 등)는 0/1/2, 유예 중이면 3 입니다.
+⚠ 이미 깔린 `plugins/inmc-fishing/fight.yml` 은 덮어쓰지 않습니다 — 보스바·액션바까지 원하면 그 파일의 `mode` 를 `vanilla` 로 고치세요.
 
 ## 주의할 점
 
