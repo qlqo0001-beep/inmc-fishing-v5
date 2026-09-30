@@ -95,9 +95,13 @@ class TournamentService(private val fishing: Fishing) : YamlFileStore(
         if (runs.containsKey(def.id)) return false
         val applicants = applications[def.id].orEmpty()
         if (!manual && applicants.size < def.minPlayers) {
-            fishing.logger.info(
-                "대회 '" + def.id + "' 자동 시작을 건너뜁니다 — 신청 " + applicants.size + "/" + def.minPlayers + "명",
-            )
+            // 아무도 신청하지 않았으면 조용히 다음 시각으로 — 매번 콘솔에 남기면 오류처럼 보인다(사용자 2026-09-30).
+            // 신청자가 있으면 그 사람들에게 알린다. 신청과 참가비는 그대로 다음 대회로 이어진다.
+            if (applicants.isNotEmpty()) {
+                fishing.logger.info("대회 '" + def.id + "' 는 신청 " + applicants.size + "/" + def.minPlayers + "명이라 열지 않았습니다 — 신청은 다음 대회로 이어집니다")
+                val ph = Ph.of().tournament(def.name).amount(applicants.size.toString() + "/" + def.minPlayers)
+                for (id in applicants.keys) Bukkit.getPlayer(id)?.let { fishing.messages.send(it, "tournament-not-enough", ph) }
+            }
             return false
         }
         applications.remove(def.id)

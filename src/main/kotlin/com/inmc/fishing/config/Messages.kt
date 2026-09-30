@@ -98,6 +98,7 @@ class Messages(values: Map<String, String>) : MessageCatalog<Ph>(values, DEFAULT
             "tournament-left" to "<yellow>{tournament} 에서 나왔습니다.</yellow>",
             "tournament-already-joined" to "<red>이미 참가 중입니다.</red>",
             "tournament-full" to "<red>참가 인원이 가득 찼습니다.</red>",
+            "tournament-not-enough" to "<yellow>신청 인원이 모자라 {tournament} 가 열리지 않았습니다({amount}명). <gray>신청은 다음 대회로 이어집니다.</gray></yellow>",
             "tournament-not-running" to "<red>진행 중인 대회가 없습니다.</red>",
             "tournament-fee-short" to "<red>참가비가 부족합니다. ({amount})</red>",
             "tournament-result" to "<gold>{tournament} {rank}위 — {player} ({score})</gold>",
