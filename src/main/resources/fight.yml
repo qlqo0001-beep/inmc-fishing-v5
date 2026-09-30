@@ -535,6 +535,9 @@ trophy-fight:
     reel-combo-window-millis: 300
     # 좌클릭 콤보 상한.
     max-reel-combo: 10
+    # W(감기)·S(풀기)를 누르고 있으면 이 간격(밀리초)마다 한 번 더 누른 것으로 칩니다 — 연타처럼 콤보가 쌓입니다.
+    # 콤보 간격(reel-combo-window-millis)보다 짧아야 쌓입니다. 0 이면 누른 순간 한 번만.
+    hold-repeat-millis: 150
 
   # --- 스탯 설정 ---
   # Fight 핵심 스탯 기본값

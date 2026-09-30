@@ -137,6 +137,36 @@ class ParityRestoreTest {
         assertEquals(FightKeys.Press.RELEASE, press(w, s))
     }
 
+    @Test
+    fun `W 를 꾹 누르면 연타처럼 콤보가 쌓이며 감긴다 — 판 전부터 쥔 키는 되풀이하지 않고 S 도 같다`() {
+        val input = FightSettings().input
+        // 0ms 에 W 를 누르고 1.5초 쥐고 있다(20Hz 틱). 사용자 요청 2026-10-01 — 전에는 콤보가 1 에서 멈췄다.
+        val fight = fresh()
+        fight.registerReel(0L)
+        var pressedAt: Long? = 0L
+        for (tick in 1..30) {
+            val now = tick * 50L
+            pressedAt = FightKeys.hold(fight, reel = true, pressedAt, now, input.holdRepeatMillis)
+            assertTrue(fight.isReeling(now), "쥐고 있는 동안은 감는 중이어야 한다($now ms)")
+        }
+        assertEquals(input.maxReelCombo, fight.reelCombo, "1.5초 쥐면 콤보가 끝까지 쌓인다")
+
+        // 판이 열리기 전부터 쥐고 있던 키(누른 시각 없음)는 되풀이하지 않는다 — 한 번 떼고 눌러야 감긴다.
+        val early = fresh()
+        var never: Long? = null
+        for (tick in 1..30) never = FightKeys.hold(early, reel = true, never, tick * 50L, input.holdRepeatMillis)
+        assertEquals(0, early.reelCombo)
+        assertTrue(!early.isReeling(1_500L))
+
+        // S 도 같다.
+        val loose = fresh()
+        loose.registerRelease(0L)
+        var at: Long? = 0L
+        for (tick in 1..30) at = FightKeys.hold(loose, reel = false, at, tick * 50L, input.holdRepeatMillis)
+        assertEquals(input.maxReleaseCombo, loose.releaseCombo)
+        assertTrue(input.holdRepeatMillis < input.reelComboWindowMillis, "되풀이 간격이 콤보 간격보다 길면 쌓이지 않는다")
+    }
+
     // --- 시뮬레이션 (2세대 /fishing simulate) -------------------------------------------
 
     @Test

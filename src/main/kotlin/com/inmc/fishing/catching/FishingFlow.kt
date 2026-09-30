@@ -143,16 +143,22 @@ class FishingFlow(private val fishing: Fishing) {
     }
 
     /**
-     * 힘겨루기의 W(감기)·S(풀기). 누른 순간은 클릭 하나와 같고(연타하면 콤보가 오른다), 누르고 있는 동안은
-     * [tickFight] 가 틱마다 [com.inmc.fishing.fight.Fight.holdReel] 로 이어 간다. 둘 다 누르면 아무 쪽도 아니다.
+     * 힘겨루기의 W(감기)·S(풀기). 누른 순간은 클릭 하나와 같고, 누르고 있는 동안은 [tickFight] 가 `hold-repeat-millis` 마다
+     * 한 번 더 누른 것으로 쳐서 연타처럼 콤보가 쌓인다([FightKeys.hold]). 둘 다 누르면 아무 쪽도 아니다.
      * 힘겨루기 중에는 제자리에 묶여 있어(`FightMovement`) 눌러도 움직이지 않는다.
      */
     fun keys(angler: Angler, forward: Boolean, backward: Boolean, now: Long) {
         val session = angler.fight ?: return
         // W 를 쥔 채 S 를 눌렀다 떼도 다시 감긴다(FightKeys) — 손가락을 굴려 방향을 바꿀 수 있게.
         when (FightKeys.pressed(session.forward, session.backward, forward, backward)) {
-            FightKeys.Press.REEL -> session.fight.registerReel(now)
-            FightKeys.Press.RELEASE -> session.fight.registerRelease(now)
+            FightKeys.Press.REEL -> {
+                session.fight.registerReel(now)
+                session.keyPressedAt = now
+            }
+            FightKeys.Press.RELEASE -> {
+                session.fight.registerRelease(now)
+                session.keyPressedAt = now
+            }
             null -> Unit
         }
         session.forward = forward
@@ -304,16 +310,17 @@ class FishingFlow(private val fishing: Fishing) {
         val fight = session.fight
         val settings = fight.settings
         if (session.forward != session.backward) {
-            if (session.forward) fight.holdReel(now) else fight.holdRelease(now)
+            session.keyPressedAt = FightKeys.hold(fight, session.forward, session.keyPressedAt, now, settings.input.holdRepeatMillis)
         }
         val exhaustedNow = fight.tick(now)
         session.ticks++
 
         if (exhaustedNow) sound(player, settings.sound.fishExhausted)
         // 상태 타이틀은 매 틱 다시 보낸다 — 한 번만 보내면 긴 상태(휴식 등)에서 상태가 안 바뀌었는데 타이틀이 먼저 꺼진다.
-        // betterhud 에서도 그린다(사용자 결정 2026-09-27 — "좌우클릭 미니게임을 2세대처럼 타이틀에") — 할 일이 가운데 떠야 한다.
-        stateTitle(player, fight)
+        // betterhud 면 보내지 않는다 — BetterHud 가 같은 상태를 가운데에 그려 둘이 겹쳐 나왔다(사용자 2026-10-01). 입질 미니게임의
+        // 타이틀(showGame, 2026-09-27 결정)은 그대로다.
         if (!settings.hud.betterHud) {
+            stateTitle(player, fight)
             updateBossBar(player, session)
             actionBar(player, fight)
         }

@@ -37,7 +37,7 @@ class BiteSession(
 /**
  * 힘겨루기 한 판. 계산은 [Fight](물고기의 마음 [Fight.ai] 포함)가 하고, 여기는 화면·낚싯바늘처럼 판에 딸린 것을 든다.
  * 클릭은 곧바로 [Fight.registerReel]/[Fight.registerRelease] 로 간다 — 2세대처럼 클릭이 "누르고 있음" 을 잠깐 남긴다.
- * W·S 도 같다 — 누른 순간이 클릭 하나, 누르고 있는 동안은 틱마다 [Fight.holdReel]/[Fight.holdRelease].
+ * W·S 도 같다 — 누른 순간이 클릭 하나, 누르고 있는 동안은 `hold-repeat-millis` 마다 한 번 더 누른 것으로 친다([FightKeys.hold]).
  */
 class FightSession(
     val result: Catch,
@@ -55,6 +55,9 @@ class FightSession(
     /** 지금 W(감기)·S(풀기)를 누르고 있는지 — `PlayerInputEvent` 가 바뀔 때마다 적는다. 누른 순간을 가려내려고 든다. */
     var forward: Boolean = false
     var backward: Boolean = false
+
+    /** W·S 를 마지막으로 누른(또는 되풀이한) 시각 — 누르고 있으면 여기서부터 `hold-repeat-millis` 를 잰다([FightKeys.hold]). */
+    var keyPressedAt: Long? = null
 }
 
 /**

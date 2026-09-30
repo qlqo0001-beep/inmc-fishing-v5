@@ -95,7 +95,7 @@ data class FightSettings(
     data class Guide(val title: String, val subtitle: String)
 
     data class Hud(
-        /** `mode: betterhud` — 보스바·액션바를 그리지 않는다(상태 타이틀은 그린다). BetterHud 가 `%inmcfishing_fight_*%` 로 그린다. */
+        /** `mode: betterhud` — 보스바·액션바·상태 타이틀을 그리지 않는다. BetterHud 가 `%inmcfishing_fight_*%` 로 그린다(둘이 겹쳐 나왔다, 2026-10-01). */
         val betterHud: Boolean = false,
         val barColorSafe: String = "&a",
         val barColorWarning: String = "&e",
@@ -155,6 +155,8 @@ data class FightSettings(
         val maxReleaseCombo: Int = 10,
         val reelComboWindowMillis: Long = 300L,
         val maxReelCombo: Int = 10,
+        /** W·S 를 누르고 있으면 이 간격마다 한 번 더 누른 것으로 친다(연타처럼 콤보가 쌓인다, 사용자 요청 2026-10-01). 0 이면 되풀이 안 함. */
+        val holdRepeatMillis: Long = 150L,
     )
 
     data class Stats(
@@ -353,6 +355,7 @@ data class FightSettings(
                 maxReleaseCombo = c.getInt("input.max-release-combo", i.maxReleaseCombo).coerceAtLeast(1),
                 reelComboWindowMillis = lng("input.reel-combo-window-millis", i.reelComboWindowMillis),
                 maxReelCombo = c.getInt("input.max-reel-combo", i.maxReelCombo).coerceAtLeast(1),
+                holdRepeatMillis = lng("input.hold-repeat-millis", i.holdRepeatMillis).coerceAtLeast(0L),
             )
             val s = d.stats
             val stats = Stats(

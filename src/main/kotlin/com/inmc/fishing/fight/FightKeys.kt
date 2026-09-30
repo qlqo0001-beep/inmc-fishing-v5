@@ -11,6 +11,21 @@ object FightKeys {
 
     enum class Press { REEL, RELEASE }
 
+    /**
+     * 한쪽 키를 누르고 있는 한 틱(사용자 요청 2026-10-01 — W 를 꾹 누르면 콤보가 쌓이며 감겨야 한다). [repeatMillis] 마다 **한 번 더
+     * 누른 것**으로 쳐서 연타처럼 콤보를 올리고, 그 사이는 누르고 있음만 늘린다. 판이 열리기 전부터 쥐고 있던 키([pressedAt] 이 null)는
+     * 되풀이하지 않는다 — 한 번 떼고 눌러야 감긴다.
+     * @return 다음 되풀이를 잴 시각(되풀이하지 않았으면 [pressedAt] 그대로)
+     */
+    fun hold(fight: Fight, reel: Boolean, pressedAt: Long?, now: Long, repeatMillis: Long): Long? {
+        if (pressedAt != null && repeatMillis > 0 && now - pressedAt >= repeatMillis) {
+            if (reel) fight.registerReel(now) else fight.registerRelease(now)
+            return now
+        }
+        if (reel) fight.holdReel(now) else fight.holdRelease(now)
+        return pressedAt
+    }
+
     fun pressed(wasForward: Boolean, wasBackward: Boolean, forward: Boolean, backward: Boolean): Press? {
         val wasReel = wasForward && !wasBackward
         val wasRelease = wasBackward && !wasForward
