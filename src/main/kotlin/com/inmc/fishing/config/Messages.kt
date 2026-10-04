@@ -70,6 +70,9 @@ class Messages(values: Map<String, String>) : MessageCatalog<Ph>(values, DEFAULT
             "collection-perfect" to "<gold>{fish} 도감을 퍼펙트 완성했습니다!</gold>",
             "collection-need-item" to "<red>등록할 {fish} 가 없습니다.</red>",
             "collection-first" to "<aqua>{fish} 를 처음으로 도감에 등록했습니다!</aqua>",
+            "collection-registered-many" to "<green>{fish} {count}개를 도감에 등록했습니다.</green>",
+            "collection-grade-done" to "<green>{grade} 도감 일괄등록 완료: {count}개 등록했습니다.</green>",
+            "collection-grade-empty" to "<yellow>등록할 물고기가 없습니다. (인벤·배낭·어망 확인)</yellow>",
 
             // --- 어망 --------------------------------------------------------------
             "net-full" to "<red>어망이 가득 찼습니다. ({amount}마리)</red>",
