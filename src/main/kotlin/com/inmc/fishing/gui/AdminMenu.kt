@@ -86,6 +86,12 @@ class AdminMenu(
             ),
         ) { FilletItemListMenu(fishing, viewer).open(viewer) }
 
+        set(SLOT_HUB, Icon.of(
+            Material.COMPASS,
+            "<gold>어드민 메뉴로</gold>",
+            listOf("<gray>각 플러그인 설정 허브로 돌아갑니다.</gray>"),
+        )) { viewer.performCommand("메뉴 어드민") }
+
         set(SLOT_CLOSE, Icon.close()) { viewer.closeInventory() }
     }
 
@@ -114,6 +120,7 @@ class AdminMenu(
         const val SLOT_BAIT = 13
         const val SLOT_POTION = 14
         const val SLOT_FILLET = 15
+        const val SLOT_HUB = 26
         const val SLOT_CLOSE = 22
     }
 }
