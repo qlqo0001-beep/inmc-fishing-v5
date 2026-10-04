@@ -77,6 +77,7 @@ class Messages(values: Map<String, String>) : MessageCatalog<Ph>(values, DEFAULT
             // --- 어망 --------------------------------------------------------------
             "net-full" to "<red>어망이 가득 찼습니다. ({amount}마리)</red>",
             "net-stored" to "<green>{fish} 를 어망에 넣었습니다.</green>",
+            "net-stored-many" to "<green>물고기 {count}마리를 어망에 넣었습니다.</green>",
             "net-taken" to "<green>{fish} 를 어망에서 꺼냈습니다.</green>",
             "net-empty" to "<gray>어망이 비어 있습니다.</gray>",
 
@@ -91,6 +92,7 @@ class Messages(values: Map<String, String>) : MessageCatalog<Ph>(values, DEFAULT
 
             // --- 손질 --------------------------------------------------------------
             "fillet-started" to "<green>{fish} 손질을 시작했습니다. ({seconds}초)</green>",
+            "fillet-started-many" to "<green>물고기 {count}마리를 손질대에 걸었습니다.</green>",
             "fillet-done" to "<green>손질이 끝났습니다. {fish} {amount}개를 받았습니다.</green>",
             "fillet-no-room" to "<red>손질대에 빈 자리가 없습니다.</red>",
 

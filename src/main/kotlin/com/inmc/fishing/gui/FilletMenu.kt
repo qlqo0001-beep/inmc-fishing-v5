@@ -36,7 +36,7 @@ class FilletMenu(
             val slot = angler.bench.slotAt(index)
 
             if (slot == null) {
-                set(position, emptySlot()) { submit() }
+                set(position, emptySlot())
             } else {
                 set(position, workingSlot(slot, now)) { cancel(index) }
             }
@@ -46,7 +46,7 @@ class FilletMenu(
             set(it, Icon.of(Material.BARRIER, "<dark_gray>잠긴 칸</dark_gray>", listOf("<gray>관리자가 칸을 늘려 줄 수 있습니다.</gray>")))
         }
 
-        set(SLOT_SUBMIT, submitButton()) { submit() }
+        set(SLOT_SUBMIT, submitButton()) { submitAll() }
         mainButton(SLOT_MAIN, viewer)
         set(Paging.SLOT_CLOSE, Icon.close()) { viewer.closeInventory() }
     }
@@ -54,7 +54,7 @@ class FilletMenu(
     private fun emptySlot() = Icon.of(
         Material.LIGHT_GRAY_STAINED_GLASS_PANE,
         "<gray>빈 자리</gray>",
-        listOf("<yellow>▶ 클릭: 손에 든 물고기 걸기</yellow>"),
+        listOf("<yellow>▶ 가방에서 물고기를 Shift+클릭으로 걸기</yellow>"),
     )
 
     private fun workingSlot(slot: FilletSlot, now: Long): ItemStack {
@@ -86,33 +86,59 @@ class FilletMenu(
     }
 
     private fun submitButton(): ItemStack {
-        val hand = viewer.inventory.itemInMainHand
-        val stamp = FishStamp.read(hand)
-        if (stamp == null) {
-            return Icon.of(
-                Material.BARRIER,
-                "<red>손질하려면 물고기를 손에 드세요</red>",
-                listOf("<gray>낚은 물고기만 손질할 수 있습니다.</gray>"),
-            )
-        }
-        val seconds = fishing.config.fillet.secondsFor(stamp.gradeId, stamp.trophy, hand.amount)
+        val free = (0 until angler.bench.slotCount).count { angler.bench.slotAt(it) == null }
         return Icon.of(
             Material.SHEARS,
-            "<green>손에 든 것 전부 손질</green>",
+            "<green>가방 물고기 모두 걸기</green>",
             listOf(
-                "<gray>대상: <white>" + (fishing.fish.get(stamp.fishId)?.label() ?: stamp.fishId) +
-                    "</white> x" + hand.amount + "</gray>",
-                "<gray>예상 시간: <white>" + seconds + "초</white></gray>",
-                "<gray>나오는 개수: <white>" +
-                    fishing.config.fillet.yieldFor(stamp.trophy, hand.amount) + "</white></gray>",
+                "<gray>빈 자리: <white>" + free + "</white></gray>",
+                "<gray>가방·왼손에 든 물고기를 빈 자리가 찰 때까지 겁니다.</gray>",
+                "",
+                "<yellow>▶ 클릭</yellow>",
             ),
         )
     }
 
-    private fun submit() {
-        val hand = viewer.inventory.itemInMainHand
-        if (FishStamp.read(hand) == null) return
-        fishing.fillet.submit(viewer, angler, hand, hand.amount)
+    /** 가방에서 Shift+클릭한 물고기를 손질대에 건다. 물고기가 아니면 조용히 넘긴다. */
+    override fun handleClick(event: org.bukkit.event.inventory.InventoryClickEvent) {
+        if (event.rawSlot >= size && event.isShiftClick) {
+            event.isCancelled = true
+            val stack = event.currentItem
+            if (FishStamp.read(stack) == null) return
+            if (stack != null && fishing.fillet.submit(viewer, angler, stack, stack.amount) >= 0) {
+                if (stack.amount <= 0) event.currentItem = null else event.currentItem = stack
+                refresh()
+            }
+            return
+        }
+        super.handleClick(event)
+    }
+
+    /** 가방의 물고기를 빈 자리가 찰 때까지 건다. */
+    private fun submitAll() {
+        var moved = 0
+        val inv = viewer.inventory
+        for (i in 0 until inv.storageContents.size) {
+            if (!angler.bench.hasRoom()) break
+            val stack = inv.getItem(i) ?: continue
+            if (FishStamp.read(stack) == null) continue
+            val before = stack.amount
+            if (fishing.fillet.submit(viewer, angler, stack, before, quiet = true) < 0) break
+            moved += before - stack.amount.coerceAtLeast(0)
+            if (stack.amount <= 0) inv.setItem(i, null)
+        }
+        if (angler.bench.hasRoom()) {
+            val off = inv.itemInOffHand
+            if (FishStamp.read(off) != null) {
+                val before = off.amount
+                if (fishing.fillet.submit(viewer, angler, off, before, quiet = true) >= 0) {
+                    moved += before - off.amount.coerceAtLeast(0)
+                    if (off.amount <= 0) inv.setItemInOffHand(null)
+                }
+            }
+        }
+        if (moved <= 0) return
+        fishing.messages.send(viewer, "fillet-started-many", com.inmc.fishing.util.Ph.of().count(moved))
         refresh()
     }
 

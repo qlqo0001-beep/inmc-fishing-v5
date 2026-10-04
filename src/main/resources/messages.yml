@@ -68,6 +68,7 @@ collection-grade-empty: "<yellow>등록할 물고기가 없습니다. (인벤·�
 # --- 어망 ---
 net-full: "<red>어망이 가득 찼습니다. ({amount}마리)</red>"
 net-stored: "<green>{fish} 를 어망에 넣었습니다.</green>"
+net-stored-many: "<green>물고기 {count}마리를 어망에 넣었습니다.</green>"
 net-taken: "<green>{fish} 를 어망에서 꺼냈습니다.</green>"
 net-empty: "<gray>어망이 비어 있습니다.</gray>"
 
@@ -82,6 +83,7 @@ unregistered-rod: "<red>등록되지 않은 낚싯대로는 낚시할 수 없습
 
 # --- 손질 ---
 fillet-started: "<green>{fish} 손질을 시작했습니다. ({seconds}초)</green>"
+fillet-started-many: "<green>물고기 {count}마리를 손질대에 걸었습니다.</green>"
 fillet-done: "<green>손질이 끝났습니다. {fish} {amount}개를 받았습니다.</green>"
 fillet-no-room: "<red>손질대에 빈 자리가 없습니다.</red>"
 
