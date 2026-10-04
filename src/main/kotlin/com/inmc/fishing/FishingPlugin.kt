@@ -37,6 +37,7 @@ class FishingPlugin : JavaPlugin() {
         registerListeners()
         com.inmc.fishing.command.FishingCommand(fishing).register(this)
         registerSignalCatalog()
+        com.inmc.fishing.registry.FishingSettings.register()
         // 커스텀아이템에 낚싯대·미끼·물약·생선살·물고기 겉모습 역할을 내놓는다(core ItemRoles).
         for (role in com.inmc.fishing.registry.FishingRoles.roles(fishing)) kr.inmc.core.integration.ItemRoles.register(role)
         kr.inmc.core.integration.ItemRoles.listen(com.inmc.fishing.registry.FishingRoles.OWNER) { role ->
@@ -100,6 +101,7 @@ class FishingPlugin : JavaPlugin() {
         // 람다가 이 플러그인의 객체와 클래스로더를 붙들고 있다. 빼지 않으면 샌다.
         kr.inmc.core.event.SignalCatalog.unregisterAll(SOURCE)
         kr.inmc.core.integration.ItemRoles.unregisterAll(com.inmc.fishing.registry.FishingRoles.OWNER)
+        com.inmc.fishing.registry.FishingSettings.unregister()
         ticker.stop()
         fightTicker.stop()
         metrics.stop()
