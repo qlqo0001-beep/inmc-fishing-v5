@@ -39,6 +39,7 @@ class Messages(values: Map<String, String>) : MessageCatalog<Ph>(values, DEFAULT
             "minigame-on" to "<green>미니게임을 켰습니다.</green>",
             "minigame-off" to "<yellow>미니게임을 껐습니다. 이제 자동으로 낚입니다.</yellow>",
             "minigame-locked" to "<red>피로도가 부족해 자동 낚시를 할 수 없습니다.</red>",
+            "manual-reel" to "<gray>찌를 거두었습니다. 자동 낚시를 끝냅니다.</gray>",
 
             // --- 트로피 ------------------------------------------------------------
             "trophy" to "<gold>트로피! <white>{fish}</white> <gray>({size}cm)</gray></gold>",

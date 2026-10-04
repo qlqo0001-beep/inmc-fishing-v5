@@ -117,7 +117,16 @@ class FishingFlow(private val fishing: Fishing) {
         }
 
         val bite = angler.bite ?: return false
-        val game = bite.game ?: return true // 자동 낚시 중에는 클릭이 아무것도 하지 않는다
+        val game = bite.game
+        if (game == null) {
+            // 자동 낚시 중 클릭은 아무것도 하지 않는다 — 단, 웅크린 우클릭은 직접 회수다.
+            // 자동은 찌를 계속 물에 두므로(피로도 최소까지), 걷을 방법이 따로 있어야 한다.
+            if (player.isSneaking && !left) {
+                finish(player, angler, bite.hook)
+                fishing.messages.send(player, "manual-reel")
+            }
+            return true
+        }
 
         when (game.press(if (left) Click.LEFT else Click.RIGHT, now)) {
             Progress.HIT -> {
@@ -467,8 +476,24 @@ class FishingFlow(private val fishing: Fishing) {
             return
         }
 
-        finish(player, angler, hook)
+        if (!auto) {
+            finish(player, angler, hook)
+            fishing.catches.grant(player, angler, result, auto)
+            return
+        }
+
+        // 자동 낚시는 찌를 거두지 않고 바로 다음 판을 연다. 걷는 조건은 둘뿐이다 —
+        // 직접 걷기(웅크린 우클릭, 위 click())와 피로도 최소치. grant 가 피로도를 깎은 뒤라
+        // 잠김은 grant 뒤에 본다(잠김 메시지는 grant 가 이미 보냈다).
+        // finish 를 쓰면 찌가 사라지므로 세션만 비운다. 추첨 실패·등급 제한이면 판 없이
+        // 찌만 남고, 다음 바닐라 입질이 다시 연다.
+        angler.clearSessions()
         fishing.catches.grant(player, angler, result, auto)
+        if (angler.fatigue.locked || hook == null || !hook.isValid) {
+            finish(player, angler, hook)
+            return
+        }
+        bite(player, angler, hook, System.currentTimeMillis())
     }
 
     private fun escape(player: Player, angler: Angler) {
