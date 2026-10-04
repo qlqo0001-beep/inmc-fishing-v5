@@ -325,7 +325,7 @@ class CatchService(private val fishing: Fishing) {
 
     private fun announce(player: Player, result: Catch) {
         val ph = Ph.of()
-            .player(player)
+            .player(kr.inmc.core.integration.TitleForgeNames.displayName(player.uniqueId, player.name))
             .fish(result.fish.label())
             .grade(result.grade.tag())
             .size(result.size)
