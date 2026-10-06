@@ -23,12 +23,12 @@ class FilletService(private val fishing: Fishing) {
      *
      * @return 걸었으면 슬롯 번호. 못 걸었으면 -1.
      */
-    fun submit(player: Player, angler: Angler, stack: ItemStack, amount: Int): Int {
+    fun submit(player: Player, angler: Angler, stack: ItemStack, amount: Int, quiet: Boolean = false): Int {
         val stamp = FishStamp.read(stack) ?: return -1
         val count = amount.coerceIn(1, stack.amount)
 
         if (!angler.bench.hasRoom()) {
-            fishing.messages.send(player, "fillet-no-room")
+            if (!quiet) fishing.messages.send(player, "fillet-no-room")
             return -1
         }
 
@@ -41,21 +41,23 @@ class FilletService(private val fishing: Fishing) {
             size = stamp.size,
         )
         if (index < 0) {
-            fishing.messages.send(player, "fillet-no-room")
+            if (!quiet) fishing.messages.send(player, "fillet-no-room")
             return -1
         }
 
         stack.amount = stack.amount - count
         fishing.anglers.markDirty(angler)
 
-        val slot = angler.bench.slotAt(index)
-        fishing.messages.send(
-            player,
-            "fillet-started",
-            Ph.of()
-                .fish(fishing.fish.get(stamp.fishId)?.label() ?: stamp.fishId)
-                .seconds((slot?.totalSeconds ?: 0).toLong()),
-        )
+        if (!quiet) {
+            val slot = angler.bench.slotAt(index)
+            fishing.messages.send(
+                player,
+                "fillet-started",
+                Ph.of()
+                    .fish(fishing.fish.get(stamp.fishId)?.label() ?: stamp.fishId)
+                    .seconds((slot?.totalSeconds ?: 0).toLong()),
+            )
+        }
         return index
     }
 

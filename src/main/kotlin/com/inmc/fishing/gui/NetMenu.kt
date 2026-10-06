@@ -62,6 +62,7 @@ class NetMenu(
             refresh()
         }
         set(SLOT_STORE, storeButton()) { store() }
+        set(SLOT_STORE_ALL, storeAllButton()) { storeAll() }
         set(SLOT_INFO, info(shown.size))
         mainButton(SLOT_MAIN, viewer)
         set(Paging.SLOT_CLOSE, Icon.close()) { viewer.closeInventory() }
@@ -113,20 +114,37 @@ class NetMenu(
         refresh()
     }
 
+    /** 가방에서 Shift+클릭한 물고기를 어망에 넣는다. 물고기가 아니면 조용히 넘긴다. */
+    override fun handleClick(event: org.bukkit.event.inventory.InventoryClickEvent) {
+        if (event.rawSlot >= size && event.isShiftClick) {
+            event.isCancelled = true
+            val stack = event.currentItem
+            val moved = storeStack(stack)
+            if (moved > 0 && stack != null) {
+                if (stack.amount - moved <= 0) event.currentItem = null
+                else stack.amount = stack.amount - moved
+                fishing.anglers.markDirty(angler)
+                fishing.messages.send(viewer, "net-stored", Ph.of().fish(
+                    fishing.fish.get(FishStamp.read(stack)?.fishId ?: "")?.label() ?: "물고기",
+                ))
+                refresh()
+            }
+            return
+        }
+        super.handleClick(event)
+    }
+
     /** 손에 든 물고기를 전부 어망에 넣는다. 가득 차면 넣은 만큼만 소모한다. */
     private fun store() {
         val hand = viewer.inventory.itemInMainHand
         val stamp = FishStamp.read(hand)
-        if (stamp == null) {
-            fishing.messages.send(viewer, "collection-need-item", Ph.of().fish("물고기"))
-            return
-        }
-
-        var moved = 0
-        while (moved < hand.amount && angler.net.add(stamp)) moved++
-
+        val moved = storeStack(hand)
         if (moved == 0) {
-            fishing.messages.send(viewer, "net-full", Ph.of().amount(angler.net.capacity))
+            if (stamp == null) {
+                fishing.messages.send(viewer, "collection-need-item", Ph.of().fish("물고기"))
+            } else {
+                fishing.messages.send(viewer, "net-full", Ph.of().amount(angler.net.capacity))
+            }
             return
         }
         hand.amount = hand.amount - moved
@@ -134,8 +152,51 @@ class NetMenu(
         fishing.messages.send(
             viewer,
             "net-stored",
-            Ph.of().fish(fishing.fish.get(stamp.fishId)?.label() ?: stamp.fishId),
+            Ph.of().fish(fishing.fish.get(stamp?.fishId ?: "")?.label() ?: "물고기"),
         )
+        refresh()
+    }
+
+    /**
+     * 스택 하나를 어망에 넣는다. 손·인벤토리 Shift+클릭이 같은 길이다.
+     *
+     * @return 넣은 마릿수. 물고기가 아니면 0.
+     */
+    private fun storeStack(stack: ItemStack?): Int {
+        val stamp = FishStamp.read(stack) ?: return 0
+        var moved = 0
+        while (moved < (stack?.amount ?: 0) && angler.net.add(stamp)) moved++
+        return moved
+    }
+
+    /** 가방의 물고기를 어망이 찰 때까지 넣는다. */
+    private fun storeAll() {
+        var moved = 0
+        val inv = viewer.inventory
+        for (i in 0 until inv.storageContents.size) {
+            if (angler.net.isFull) break
+            val stack = inv.getItem(i) ?: continue
+            val n = storeStack(stack)
+            if (n > 0) {
+                moved += n
+                if (stack.amount - n <= 0) inv.setItem(i, null)
+                else stack.amount = stack.amount - n
+            }
+        }
+        if (!angler.net.isFull) {
+            val off = inv.itemInOffHand
+            val n = storeStack(off)
+            if (n > 0) {
+                moved += n
+                if (off.amount - n <= 0) inv.setItemInOffHand(null) else off.amount = off.amount - n
+            }
+        }
+        if (moved == 0) {
+            fishing.messages.send(viewer, "collection-need-item", Ph.of().fish("물고기"))
+            return
+        }
+        fishing.anglers.markDirty(angler)
+        fishing.messages.send(viewer, "net-stored-many", Ph.of().count(moved))
         refresh()
     }
 
@@ -150,9 +211,12 @@ class NetMenu(
         val stamp = FishStamp.read(hand)
         if (stamp == null) {
             return Icon.of(
-                Material.BARRIER,
-                "<red>넣으려면 물고기를 손에 드세요</red>",
-                listOf("<gray>낚은 물고기만 들어갑니다.</gray>"),
+                Material.BUCKET,
+                "<green>어망에 넣기</green>",
+                listOf(
+                    "<gray>가방에서 물고기를 Shift+클릭하세요.</gray>",
+                    "<gray>낚은 물고기만 들어갑니다.</gray>",
+                ),
             )
         }
         return Icon.of(
@@ -161,6 +225,16 @@ class NetMenu(
             listOf("<gray>대상: <white>" + (fishing.fish.get(stamp.fishId)?.label() ?: stamp.fishId) + "</white></gray>"),
         )
     }
+
+    private fun storeAllButton(): ItemStack = Icon.of(
+        Material.WATER_BUCKET,
+        "<green>가방 물고기 모두 넣기</green>",
+        listOf(
+            "<gray>가방·왼손에 든 물고기를 어망이 찰 때까지 넣습니다.</gray>",
+            "",
+            "<yellow>▶ 클릭</yellow>",
+        ),
+    )
 
     private fun info(total: Int) = Icon.of(
         Material.PAPER,
@@ -179,6 +253,8 @@ class NetMenu(
         const val SLOT_MAIN = 52
         const val SLOT_SORT = 45
         const val SLOT_STORE = 48
+        /** 가방 물고기 모두 넣기 — 넣기(48) 옆 빈자리. 항목 칸(0~44)·이전·다음과 무충돌. */
+        const val SLOT_STORE_ALL = 50
         const val SLOT_INFO = 49
     }
 }

@@ -225,7 +225,10 @@ class CatchService(private val fishing: Fishing) {
      */
     fun grant(player: Player, angler: Angler, result: Catch, auto: Boolean): Boolean {
         val amount = if (result.double) 2 else 1
-        if (!give(player, result, amount)) {
+        // 자동 입망이 켜져 있으면 가방 대신 어망에 바로 넣는다. 다 들어갈 때만 — 일부만 들어가면
+        // 나머지가 가방으로 가서 어디에 뭐가 있는지 헷갈린다. 어망이 차면 가방으로(기존 길).
+        val netted = netStore(player, angler, result, amount)
+        if (!netted && !give(player, result, amount)) {
             fishing.messages.send(player, "inventory-full")
             return false
         }
@@ -287,6 +290,30 @@ class CatchService(private val fishing: Fishing) {
         }
     }
 
+    /**
+     * 낚은 물고기를 어망에 바로 넣는다. 전부 들어갈 때만 true — 일부만 들어가면 나머지가
+     * 가방으로 가서 어디에 뭐가 있는지 헷갈린다. 설정이 꺼져 있으면 손대지 않고 false.
+     *
+     * 도감·랭킹·대회 기록은 받는 쪽(grant)이 하므로 여기서는 넣기만 한다.
+     */
+    fun netStore(player: Player, angler: Angler, result: Catch, amount: Int): Boolean {
+        if (!kr.inmc.core.integration.PlayerSettings.enabled(player, com.inmc.fishing.registry.FishingSettings.AUTO_NET, true)) {
+            return false
+        }
+        if (angler.net.capacity > 0 && angler.net.size + amount > angler.net.capacity) {
+            fishing.messages.send(player, "net-full", Ph.of().amount(angler.net.capacity))
+            return false
+        }
+        val now = System.currentTimeMillis()
+        repeat(amount) {
+            if (!angler.net.add(FishStamp(result.fish.id, result.grade.id, result.size, result.trophy, now))) {
+                return false
+            }
+        }
+        fishing.anglers.markDirty(angler)
+        return true
+    }
+
     /** 아이템을 만들어 준다. 만들 수 없으면(참조 해제 실패) false. */
     fun give(player: Player, result: Catch, amount: Int): Boolean {
         val stamp = FishStamp(
@@ -325,7 +352,7 @@ class CatchService(private val fishing: Fishing) {
 
     private fun announce(player: Player, result: Catch) {
         val ph = Ph.of()
-            .player(player)
+            .player(kr.inmc.core.integration.TitleForgeNames.displayName(player.uniqueId, player.name))
             .fish(result.fish.label())
             .grade(result.grade.tag())
             .size(result.size)

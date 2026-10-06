@@ -12,7 +12,7 @@ import org.bukkit.inventory.meta.SkullMeta
 /**
  * 낚시 메인 — 2세대 `MainGui`. `/낚시 메인` 과 **낚싯대를 든 채 Shift+F** 로 연다.
  *
- * 내 스탯(머리 아이콘) · 어망 · 도감 · 랭킹 · 대회 · 손질대 로 가는 길과, 미니게임 켜고 끄기 ·
+ * 내 스탯(머리 아이콘) · 어망 · 도감 · 랭킹 · 대회 · 손질대 로 가는 길과, 자동낚시 켜고 끄기 ·
  * 힘겨루기 연습 모드 · 힘겨루기 설명을 한 화면에 둔다. 들어간 화면마다 "메인으로" 버튼이 있다.
  */
 class MainMenu(
@@ -66,17 +66,17 @@ class MainMenu(
     }
 
     private fun minigameTile(): ItemStack {
-        val on = angler.minigameEnabled
+        val auto = !angler.minigameEnabled
         val ceiling = angler.fatigue.ceiling(fishing.catches.rodOf(viewer)?.maxFatigue ?: 0)
         return Icon.of(
-            if (on) Material.LIME_DYE else Material.GRAY_DYE,
-            "<gold>미니게임 " + (if (on) "ON" else "OFF") + "</gold>",
+            if (auto) Material.LIME_DYE else Material.GRAY_DYE,
+            "<gold>자동낚시 " + (if (auto) "ON" else "OFF") + "</gold>",
             buildList {
-                add("<gray>L/R 클릭 미니게임을 켜거나 끕니다.</gray>")
-                add("<gray>OFF면 입질 뒤 자동으로 낚습니다. (자동 낚시)</gray>")
+                add("<gray>L/R 클릭 자동낚시를 켜거나 끕니다.</gray>")
+                add("<gray>ON이면 입질 뒤 자동으로 낚습니다.</gray>")
                 add("<aqua>피로도: <white>" + angler.fatigue.value + "</white><gray> / </gray><white>$ceiling</white></aqua>")
-                if (angler.fatigue.locked) add("<red>피로도가 낮아 미니게임 OFF 가 잠겨 있습니다.</red>")
-                add("<yellow>현재: " + (if (on) "<green>ON (미니게임)</green>" else "<red>OFF (자동 낚시)</red>") + "</yellow>")
+                if (angler.fatigue.locked) add("<red>피로도가 낮아 자동낚시 ON이 잠겨 있습니다.</red>")
+                add("<yellow>현재: " + (if (auto) "<green>ON (자동 낚시)</green>" else "<red>OFF (직접 미니게임)</red>") + "</yellow>")
                 add("<gray>클릭: 전환</gray>")
             },
         )
@@ -89,8 +89,8 @@ class MainMenu(
             "<gold>트로피 파이트 연습모드 " + (if (on) "ON" else "OFF") + "</gold>",
             listOf(
                 "<gray>ON이면 일반 물고기여도 낚시 성공 시</gray>",
-                "<gray>트로피 파이트가 발동됩니다. <red>(보상 없음)</red></gray>",
-                "<gray>미니게임은 그대로 합니다.</gray>",
+                "<gray>트로피 파이트가 발동됩니다. <green>(보상 지급)</green></gray>",
+                "<gray>자동낚시 설정은 그대로 둡니다.</gray>",
                 "<yellow>현재: " + (if (on) "<green>ON</green>" else "<red>OFF</red>") + "</yellow>",
                 "<gray>클릭: 전환</gray>",
             ),
