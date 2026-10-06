@@ -344,14 +344,13 @@ class FishingFlow(private val fishing: Fishing) {
         angler.fight = null
         fishing.movement.release(player)
         if (outcome.isWin) {
-            if (session.practice) {
-                // 연습 판은 이겨도 주지 않는다 — 트로피가 걸렸어도 그렇다(2세대와 같다).
-                finish(player, angler, session.hook)
+            // 판은 이미 비웠으므로 낚싯바늘을 직접 넘긴다. 세션에서 다시 찾으면 null 이라
+            // 바늘이 물에 남고, 다음 우클릭이 감아올리기가 된다.
+            succeed(player, angler, session.result, auto = false, skipFight = true, hook = session.hook)
+            if (session.practice && !session.result.trophy.isTrophy) {
+                // 연습 판(일반 물고기): 난이도는 물고기 등급 그대로라 트로피보다 낮다.
+                // 크기 굴림으로 트로피·레어가 나오면 본래 난이도 그대로였으므로 별도 표시 없이 끝난다.
                 fishing.messages.send(player, "fight-practice-win")
-            } else {
-                // 판은 이미 비웠으므로 낚싯바늘을 직접 넘긴다. 세션에서 다시 찾으면 null 이라
-                // 바늘이 물에 남고, 다음 우클릭이 감아올리기가 된다.
-                succeed(player, angler, session.result, auto = false, skipFight = true, hook = session.hook)
             }
             sound(player, settings.sound.success)
             return
@@ -469,7 +468,8 @@ class FishingFlow(private val fishing: Fishing) {
         hook: FishHook? = angler.bite?.hook ?: angler.fight?.hook,
     ) {
         // 트로피는 힘겨루기로 넘어간다. 자동 낚시는 예외다 — 아무도 안 보는 판을 열 수 없다.
-        // 연습 모드면 트로피가 아니어도 넘어가고, 그 판은 보상이 없다(2세대와 같다).
+        // 연습 모드면 트로피가 아니어도 넘어가고, 이기면 보상을 준다. 난이도는 물고기 등급
+        // 그대로(일반 < 트로피 < 레어 ×1.5)라 연습은 일반 물고기로만 치러진다.
         val practice = angler.practice
         if (!skipFight && !auto && fishing.fight.general.enabled && (result.trophy.isTrophy || practice)) {
             beginFight(player, angler, result, hook, System.currentTimeMillis(), practice)

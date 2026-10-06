@@ -53,7 +53,8 @@ class Angler(val id: UUID, var name: String, config: FishingConfig) {
 
     /**
      * 힘겨루기 **연습 모드**(2세대 `trophy_practice_mode`). 켜면 미니게임에 성공한 모든 물고기가
-     * 힘겨루기로 넘어가고, **이겨도 보상이 없다** — 트로피가 걸렸어도 그렇다. 저장된다.
+     * 힘겨루기로 넘어가고, 이기면 보상을 준다. 난이도는 물고기 등급 그대로라 일반 물고기로만
+     * 연습이 된다 — 크기 굴림으로 트로피·레어가 나오면 본래 난이도로 진행된다. 저장된다.
      */
     var practice: Boolean = false
 

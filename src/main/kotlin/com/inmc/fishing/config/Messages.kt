@@ -36,8 +36,8 @@ class Messages(values: Map<String, String>) : MessageCatalog<Ph>(values, DEFAULT
             "disabled" to "<red>낚시 기능이 꺼져 있습니다.</red>",
 
             // --- 미니게임 ----------------------------------------------------------
-            "minigame-on" to "<green>미니게임을 켰습니다.</green>",
-            "minigame-off" to "<yellow>미니게임을 껐습니다. 이제 자동으로 낚입니다.</yellow>",
+            "minigame-on" to "<yellow>자동낚시를 껐습니다. 직접 미니게임으로 낚습니다.</yellow>",
+            "minigame-off" to "<green>자동낚시를 켰습니다. 입질 뒤 자동으로 낚입니다.</green>",
             "minigame-locked" to "<red>피로도가 부족해 자동 낚시를 할 수 없습니다.</red>",
             "manual-reel" to "<gray>찌를 거두었습니다. 자동 낚시를 끝냅니다.</gray>",
 
@@ -57,9 +57,9 @@ class Messages(values: Map<String, String>) : MessageCatalog<Ph>(values, DEFAULT
             "title-fail" to "&f물고기가 도망갔네..",
             "title-timeout" to "&f물고기가 도망갔네..",
             "title-fail-sub" to "&cL : 좌클릭 R : 우클릭",
-            "fight-practice-win" to "<yellow>[연습모드]</yellow> <gray>파이트 연습을 완료했습니다. (보상은 지급되지 않습니다.)</gray>",
+            "fight-practice-win" to "<yellow>[연습모드]</yellow> <gray>파이트 연습을 완료했습니다. (보상 지급)</gray>",
             "practice-on-title" to "&e&l연습모드 ON",
-            "practice-on-subtitle" to "&7보상 없이 트로피 파이트 연습",
+            "practice-on-subtitle" to "&7일반 물고기로 연습 · 보상 지급",
             "practice-off-title" to "&7연습모드 OFF",
             "show-broadcast" to "<gold>[ 낚시 ]</gold> <white>{player}</white><gray> 님이 </gray>{grade} <white>{fish}</white><gray> ({size}cm) 을(를) 자랑합니다!</gray> {value}",
             "show-hold-fish" to "<red>자랑할 물고기를 손에 들어 주세요.</red>",
