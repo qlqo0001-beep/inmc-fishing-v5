@@ -17,6 +17,7 @@
 #    min-players       - 자동 시작은 사전 신청이 이 인원에 못 미치면 열리지 않습니다(신청은 남습니다).
 #                        끝날 때 이보다 적게 남아 있으면 **보상 없이 접고 참가비를 돌려줍니다**
 #    entry-fee         - 참가비. Vault 가 있어야 동작합니다
+#    currency          - 참가비 화폐 id (비우면 기본 화폐 — inmc-economy 에 화폐가 여럿일 때, 2026-10-08)
 #    refund-on-leave   - 중도 퇴장 시 참가비 환불
 #    rewards           - 순위별 콘솔 명령어. 1st / 2nd / 3 처럼 적습니다
 #    participation-reward - 참가상. 점수를 못 낸 사람도 받습니다

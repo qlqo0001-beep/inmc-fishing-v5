@@ -110,7 +110,7 @@ class TournamentService(private val fishing: Fishing) : YamlFileStore(
         for ((playerId, name) in applicants) board.join(playerId, name)
         runs[def.id] = ActiveTournament(def, board, startedAt = now, endsAt = now + def.durationMillis)
 
-        val ph = Ph.of().tournament(def.name).amount(fishing.economy.format(def.entryFee))
+        val ph = Ph.of().tournament(def.name).amount(fishing.economy.format(def.entryFee, def.currency))
         broadcast(if (def.entryFee > 0.0) "tournament-started-fee" else "tournament-started", ph)
         state.markDirty()
         return true
@@ -260,8 +260,8 @@ class TournamentService(private val fishing: Fishing) : YamlFileStore(
             fishing.messages.send(player, "tournament-no-economy")
             return false
         }
-        if (!fishing.economy.withdraw(player, def.entryFee)) {
-            fishing.messages.send(player, "tournament-fee-short", Ph.of().amount(fishing.economy.format(def.entryFee)))
+        if (!fishing.economy.withdraw(player, def.entryFee, def.currency)) {
+            fishing.messages.send(player, "tournament-fee-short", Ph.of().amount(fishing.economy.format(def.entryFee, def.currency)))
             return false
         }
         return true
@@ -342,7 +342,7 @@ class TournamentService(private val fishing: Fishing) : YamlFileStore(
 
     private fun refund(playerId: UUID, def: TournamentDef) {
         if (def.entryFee <= 0.0) return
-        fishing.economy.deposit(Bukkit.getOfflinePlayer(playerId), def.entryFee)
+        fishing.economy.deposit(Bukkit.getOfflinePlayer(playerId), def.entryFee, def.currency)
     }
 
     private fun broadcast(key: String, ph: Ph) {

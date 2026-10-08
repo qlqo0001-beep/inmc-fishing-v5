@@ -129,6 +129,8 @@ class FishingCommand(private val fishing: Fishing) {
 
             .then(Commands.literal("관리").requires(::isAdmin).executes { ctx -> withPlayer(ctx.source.sender) { AdminMenu(fishing, it).open(it) } })
             .then(Commands.literal("디버그").requires(::isAdmin).executes { ctx -> tools.debug(ctx.source.sender).let { 1 } })
+            // 서버 안 자동 검증(2026-10-08) — 정의·낚싯대·미니게임 판정·도감·대회 정의·순위·화면.
+            .then(Commands.literal("검증").requires(::isAdmin).executes { ctx -> withPlayer(ctx.source.sender) { com.inmc.fishing.verify.Verifier(fishing).run(it) } })
             .then(
                 Commands.literal("시뮬레이션").requires(::isAdmin).then(
                     Commands.argument("횟수", IntegerArgumentType.integer(1, 10_000_000))

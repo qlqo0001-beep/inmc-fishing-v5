@@ -64,10 +64,16 @@ class PotionEditMenu(
             Icon.of(
                 Material.NAME_TAG,
                 "<yellow>연관 등급: <white>" + gradeLabel(potion.gradeId) + "</white></yellow>",
-                Editors.optionList(gradeIds, potion.gradeId) { gradeLabel(it) } +
-                    listOf("", "<gray>지급 명령이 등급으로 이 물약을 찾습니다.</gray>") + Editors.cycleHint,
+                listOf("<gray>지급 명령이 등급으로 이 물약을 찾습니다.</gray>") + Editors.pickHint,
             ),
-        ) { event -> mutate { it.copy(gradeId = Editors.cycle(event, gradeIds, it.gradeId)) } }
+        ) {
+            // "없음" + 등급 — 고르는 화면으로(2026-10-08).
+            kr.inmc.core.gui.PickMenu(
+                fishing, viewer, "연관 등급 고르기", gradeIds,
+                icon = { Icon.of(Material.NAME_TAG, (if (it == potion.gradeId) "<green>▶ " else "<yellow>") + gradeLabel(it) + "</yellow>") },
+                back = { open(viewer) },
+            ) { picked -> mutate(reopen = false) { it.copy(gradeId = picked) } }.show()
+        }
 
         set(SLOT_MODE, modeIcon(potion)) { mutate { it.copy(item = it.item.withMode(it.item.mode.toggle())) } }
 

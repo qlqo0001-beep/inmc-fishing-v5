@@ -33,6 +33,8 @@ data class TournamentDef(
     /** 순위(1부터) → 실행할 명령어. */
     val rewards: Map<Int, List<String>>,
     val participationReward: List<String>,
+    /** 참가비 화폐 id — 비우면 기본 화폐(2026-10-08). `currency` 열쇠. */
+    val currency: String = "",
 ) {
 
     enum class Schedule { NONE, DAILY, WEEKLY }
@@ -98,6 +100,7 @@ data class TournamentDef(
                 refundOnLeave = section.getBoolean("refund-on-leave", true),
                 rewards = rewards,
                 participationReward = section.getStringList("participation-reward"),
+                currency = section.getString("currency").orEmpty(),
             )
         }
 

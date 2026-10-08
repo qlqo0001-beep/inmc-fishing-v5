@@ -39,11 +39,16 @@ class FilletItemEditMenu(
             Icon.of(
                 Material.NAME_TAG,
                 "<yellow>등급: <white>" + gradeLabel(fillet.gradeId) + "</white></yellow>",
-                Editors.optionList(gradeIds, fillet.gradeId) { gradeLabel(it) } + Editors.cycleHint,
+                Editors.pickHint,
             ),
-        ) { event ->
+        ) {
             if (gradeIds.isEmpty()) return@set
-            mutate { it.copy(gradeId = Editors.cycle(event, gradeIds, it.gradeId)) }
+            // 등급은 일곱 안팎 — 고르는 화면으로(2026-10-08).
+            kr.inmc.core.gui.PickMenu(
+                fishing, viewer, "등급 고르기", gradeIds,
+                icon = { Icon.of(Material.NAME_TAG, (if (it == fillet.gradeId) "<green>▶ " else "<yellow>") + gradeLabel(it) + "</yellow>") },
+                back = { open(viewer) },
+            ) { picked -> mutate(reopen = false) { it.copy(gradeId = picked) } }.show()
         }
 
         val trophies = Trophy.entries.toList()
