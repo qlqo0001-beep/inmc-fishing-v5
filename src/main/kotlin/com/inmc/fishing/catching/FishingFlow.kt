@@ -136,7 +136,7 @@ class FishingFlow(private val fishing: Fishing) {
 
             Progress.DONE -> {
                 player.playSound(player.location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1.6f)
-                resultTitle(player, "title-success", Ph.of().sequence(game.sequence.joinToString(" ") { it.letter }))
+                resultTitle(player, "title-success", Ph.of().sequence(game.sequence.joinToString(" ") { fishing.config.clickDisplay.letter(it) }))
                 succeed(player, angler, bite.result, auto = false)
             }
 
@@ -227,12 +227,17 @@ class FishingFlow(private val fishing: Fishing) {
         val filled = (ratio * GAME_BARS).roundToLong().toInt().coerceIn(0, GAME_BARS)
         val seconds = ceil(ratio * game.timeLimitMillis / 1000.0).toLong()
         val sub = "<green>" + "|".repeat(filled) + "</green><gray>" + "|".repeat(GAME_BARS - filled) + "</gray> <yellow>" + seconds + "s</yellow>"
-        val shown = game.render() + "\n" + sub
+        // 글자는 조각마다 따로 그린다 — 색에 닫는 태그가 없어도(`&6&l` · `<gold><bold>`) 뒤 글자로 번지지 않는다.
+        val pieces = game.pieces(fishing.config.clickDisplay)
+        val shown = pieces.joinToString(" ") + "\n" + sub
         if (shown == bite.shownTitle) return
         bite.shownTitle = shown
         player.showTitle(
             net.kyori.adventure.title.Title.title(
-                Text.render(game.render()),
+                net.kyori.adventure.text.Component.join(
+                    net.kyori.adventure.text.JoinConfiguration.separator(net.kyori.adventure.text.Component.space()),
+                    pieces.map { Text.render(it) },
+                ),
                 Text.render(sub),
                 net.kyori.adventure.title.Title.Times.times(java.time.Duration.ZERO, java.time.Duration.ofMillis(1200), java.time.Duration.ZERO),
             ),
@@ -606,7 +611,7 @@ class FishingFlow(private val fishing: Fishing) {
 
     /**
      * 미니게임 결과 타이틀 — 2세대 `titles`. 문구가 비어 있으면 띄우지 않는다.
-     * 부제는 성공이면 `title-success-sub`(`{순서}`), 실패·시간 초과면 `title-fail-sub`.
+     * 부제는 성공이면 `title-success-sub`(`{순서}`), 실패·시간 초과면 `title-fail-sub`. 둘 다 `{left}`·`{right}`(설정한 좌·우 글자)를 쓸 수 있다.
      */
     private fun resultTitle(player: Player, key: String, ph: Ph) {
         val sub = if (key == "title-success") "title-success-sub" else "title-fail-sub"
@@ -614,6 +619,8 @@ class FishingFlow(private val fishing: Fishing) {
         val main = fishing.messages.raw(key)
         val subtitle = fishing.messages.raw(sub)
         if (main.isEmpty() && subtitle.isEmpty()) return
+        val display = fishing.config.clickDisplay
+        ph.letters(display.left, display.right)
         title(
             player,
             main,

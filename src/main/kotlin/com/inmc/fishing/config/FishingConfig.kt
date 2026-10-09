@@ -3,6 +3,7 @@ package com.inmc.fishing.config
 import com.inmc.fishing.fatigue.FatigueConfig
 import com.inmc.fishing.fillet.FilletConfig
 import com.inmc.fishing.fish.TrophyRule
+import com.inmc.fishing.minigame.ClickDisplay
 import kr.inmc.core.reward.RewardSettings
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.configuration.file.YamlConfiguration
@@ -34,6 +35,9 @@ class FishingConfig(
     val autoCatchDelay: Map<String, Int>,
     /** 자동 낚시로 나올 수 있는 등급. */
     val autoCatchGrades: Set<String>,
+
+    /** 미니게임 타이틀의 글자(`minigame.letters`)와 진행 색(`minigame.colors`). */
+    val clickDisplay: ClickDisplay,
 
     // --- 확률 ---
     val doubleChance: Double,
@@ -86,6 +90,14 @@ class FishingConfig(
                 autoCatchDelay = readInts(minigameOff?.getConfigurationSection("catch-delay-seconds")),
                 autoCatchGrades = minigameOff?.getStringList("allowed-grades")
                     .orEmpty().map { it.lowercase() }.toSet(),
+                clickDisplay = ClickDisplay(
+                    // 글자는 비우면 기본값(빈 글자는 누를 것을 알 수 없다). 색은 키가 없을 때만 기본값 — "" 은 "색 없음" 이다.
+                    left = config.getString("minigame.letters.left")?.takeIf { it.isNotBlank() } ?: ClickDisplay.DEFAULT.left,
+                    right = config.getString("minigame.letters.right")?.takeIf { it.isNotBlank() } ?: ClickDisplay.DEFAULT.right,
+                    pressed = config.getString("minigame.colors.pressed") ?: ClickDisplay.DEFAULT.pressed,
+                    current = config.getString("minigame.colors.current") ?: ClickDisplay.DEFAULT.current,
+                    waiting = config.getString("minigame.colors.waiting") ?: ClickDisplay.DEFAULT.waiting,
+                ),
 
                 doubleChance = rates?.getDouble("double-chance", 7.0) ?: 7.0,
                 bigFishChance = rates?.getDouble("big-fish-chance", 1.0) ?: 1.0,

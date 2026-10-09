@@ -2,10 +2,32 @@ package com.inmc.fishing.minigame
 
 /** 미니게임에서 받는 입력. */
 enum class Click {
-    LEFT, RIGHT;
+    LEFT, RIGHT,
+}
 
-    /** 화면에 찍는 글자. */
-    val letter: String get() = if (this == LEFT) "L" else "R"
+/**
+ * 타이틀의 모습(`config.yml` `minigame.letters` · `minigame.colors`, 2026-10-09 사용자 요청). 전부 MiniMessage 원문(`&` 코드도 된다).
+ *
+ * 글자 하나는 `색 + 글자` 한 조각이고 조각은 **따로** 그린다([ClickGame.pieces]) — 그래서 색에 닫는 태그가 없어도
+ * 뒤 글자로 번지지 않는다. 글자에 색을 넣으면 그 색이 진행 색을 이긴다.
+ */
+data class ClickDisplay(
+    val left: String,
+    val right: String,
+    /** 이미 누른 것. */
+    val pressed: String,
+    /** 지금 누를 것. */
+    val current: String,
+    /** 아직 안 누른 것. */
+    val waiting: String,
+) {
+
+    fun letter(click: Click): String = if (click == Click.LEFT) left else right
+
+    companion object {
+        /** 2세대 `TimeBarMiniGame` 의 모습: 누른 것 회색 · 지금 누를 것 굵은 금색 · 남은 것 흰색. */
+        val DEFAULT = ClickDisplay("L", "R", pressed = "<dark_gray>", current = "<gold><bold>", waiting = "<white>")
+    }
 }
 
 /** 입력 하나를 넣은 결과. */
@@ -99,14 +121,18 @@ class ClickGame(
     }
 
     /** 지금까지의 진행 — 타이틀에 찍는다(2세대 `TimeBarMiniGame`): 맞힌 것 회색, 지금 누를 것 굵은 금색, 남은 것 흰색. */
-    fun render(): String =
+    fun pieces(display: ClickDisplay = ClickDisplay.DEFAULT): List<String> =
         sequence.mapIndexed { index, click ->
-            when {
-                index < hits -> "<dark_gray>${click.letter}</dark_gray>"
-                index == hits -> "<gold><bold>${click.letter}</bold></gold>"
-                else -> "<white>${click.letter}</white>"
+            val color = when {
+                index < hits -> display.pressed
+                index == hits -> display.current
+                else -> display.waiting
             }
-        }.joinToString(" ")
+            color + display.letter(click)
+        }
+
+    /** [pieces] 를 한 줄로 — 바뀌었는지 비교하는 열쇠. 화면에는 조각을 따로 그린다(색이 번지지 않게). */
+    fun render(display: ClickDisplay = ClickDisplay.DEFAULT): String = pieces(display).joinToString(" ")
 
     companion object {
 

@@ -138,6 +138,13 @@ class ResourceTest {
     }
 
     @Test
+    fun `배포 미니게임 글자·색이 코드 기본값과 같다`() {
+        val display = com.inmc.fishing.config.FishingConfig.from(load("config.yml")).clickDisplay
+
+        assertEquals(com.inmc.fishing.minigame.ClickDisplay.DEFAULT, display)
+    }
+
+    @Test
     fun `배포 트로피 기준이 코드 기본값과 같다`() {
         val rule = TrophyRule.load(load("config.yml").getConfigurationSection("rates"))
 

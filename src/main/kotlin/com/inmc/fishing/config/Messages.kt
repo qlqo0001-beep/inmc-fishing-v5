@@ -56,7 +56,7 @@ class Messages(values: Map<String, String>) : MessageCatalog<Ph>(values, DEFAULT
             "title-success-sub" to "&a{sequence}",
             "title-fail" to "&f물고기가 도망갔네..",
             "title-timeout" to "&f물고기가 도망갔네..",
-            "title-fail-sub" to "&cL : 좌클릭 R : 우클릭",
+            "title-fail-sub" to "&c{left} : 좌클릭 {right} : 우클릭",
             "fight-practice-win" to "<yellow>[연습모드]</yellow> <gray>파이트 연습을 완료했습니다. (보상 지급)</gray>",
             "practice-on-title" to "&e&l연습모드 ON",
             "practice-on-subtitle" to "&7일반 물고기로 연습 · 보상 지급",

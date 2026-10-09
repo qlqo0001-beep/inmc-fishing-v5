@@ -38,6 +38,9 @@ class Ph : TokenBag<Ph>() {
 
     fun sequence(text: String): Ph = put(SEQUENCE, text)
 
+    /** 미니게임 좌·우 글자(`config.yml` `minigame.letters`) — 결과 타이틀의 안내에 쓴다. */
+    fun letters(left: String, right: String): Ph = put(LEFT, left).put(RIGHT, right)
+
     fun tournament(name: String): Ph = put(TOURNAMENT, name)
 
     fun reason(text: String): Ph = put(REASON, text)
@@ -66,6 +69,8 @@ class Ph : TokenBag<Ph>() {
         const val REMAINING = "remaining"
         const val SECONDS = "seconds"
         const val SEQUENCE = "sequence"
+        const val LEFT = "left"
+        const val RIGHT = "right"
         const val TOURNAMENT = "tournament"
         const val REASON = "reason"
         const val ID = "id"
@@ -83,6 +88,8 @@ class Ph : TokenBag<Ph>() {
             REMAINING to listOf("{남은시간}", "{remaining}"),
             SECONDS to listOf("{초}", "{seconds}"),
             SEQUENCE to listOf("{순서}", "{sequence}"),
+            LEFT to listOf("{좌}", "{left}"),
+            RIGHT to listOf("{우}", "{right}"),
             TOURNAMENT to listOf("{대회}", "{tournament}"),
             REASON to listOf("{사유}", "{reason}"),
             ID to listOf("{아이디}", "{id}"),

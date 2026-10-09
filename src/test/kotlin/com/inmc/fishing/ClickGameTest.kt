@@ -118,7 +118,19 @@ class ClickGameTest {
         val g = game(Click.LEFT, Click.RIGHT, Click.LEFT)
         g.press(Click.LEFT, start)
 
-        assertEquals("<dark_gray>L</dark_gray> <gold><bold>R</bold></gold> <white>L</white>", g.render())
+        assertEquals(listOf("<dark_gray>L", "<gold><bold>R", "<white>L"), g.pieces())
+        assertEquals("<dark_gray>L <gold><bold>R <white>L", g.render())
+    }
+
+    @Test
+    fun `설정한 글자와 색으로 그린다 — config minigame letters colors`() {
+        val g = game(Click.LEFT, Click.RIGHT, Click.LEFT)
+        g.press(Click.LEFT, start)
+        // 그림 글자(리소스팩 글꼴)도 같은 길이다 — 글자 칸에 <font:…> 태그나 글리프 문자를 적는다.
+        val icon = "<font:customfishing:icons>뀁</font>"
+        val display = com.inmc.fishing.minigame.ClickDisplay(icon, "우", pressed = "&7", current = "<white>", waiting = "")
+
+        assertEquals(listOf("&7$icon", "<white>우", icon), g.pieces(display))
     }
 
     @Test
