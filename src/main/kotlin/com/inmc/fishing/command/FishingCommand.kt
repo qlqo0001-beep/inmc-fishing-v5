@@ -20,6 +20,7 @@ import io.papermc.paper.command.brigadier.Commands
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents
 import kr.inmc.core.item.StoredItem
 import kr.inmc.core.util.Text
+import kr.inmc.core.integration.Vanish
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -51,10 +52,11 @@ class FishingCommand(private val fishing: Fishing) {
         builder.buildFuture()
     }
 
-    private val players = SuggestionProvider<CommandSourceStack> { _, builder ->
-        Bukkit.getOnlinePlayers()
-            .filter { it.name.startsWith(builder.remainingLowerCase, ignoreCase = true) }
-            .forEach { builder.suggest(it.name) }
+    /** 투명인 사람은 그를 볼 수 있는 사람에게만 제안한다(core `Vanish`). */
+    private val players = SuggestionProvider<CommandSourceStack> { ctx, builder ->
+        Vanish.visibleNames(ctx.source.sender)
+            .filter { it.startsWith(builder.remainingLowerCase, ignoreCase = true) }
+            .forEach { builder.suggest(it) }
         builder.buildFuture()
     }
 

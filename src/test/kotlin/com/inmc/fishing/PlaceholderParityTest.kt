@@ -49,6 +49,19 @@ class PlaceholderParityTest {
     }
 
     @Test
+    fun `papi 목록은 답하는 키를 전부 담는다`() {
+        // `/papi info` 에 보이는 목록이 실제로 답하는 키와 어긋나지 않게.
+        assertEquals(idleFight.keys, FishingPlaceholders.FIGHT_KEYS.toSet())
+        for (key in FishingPlaceholders.COLLECTION_KEYS) assertNotNull(FishingPlaceholders.collection(key, null, 0) { true }, key)
+        for (key in FishingPlaceholders.FATIGUE_KEYS) assertNotNull(FishingPlaceholders.fatigue(key, null, null), key)
+        val listed = FishingPlaceholders.placeholders(listOf("tuna"))
+        assertTrue("%inmcfishing_fight_tension%" in listed)
+        assertTrue("%inmcfishing_rank%" in listed)
+        assertTrue("%inmcfishing_best_size_tuna%" in listed)
+        assertEquals(listed.size, listed.toSet().size, "겹치는 항목이 없다")
+    }
+
+    @Test
     fun `힘겨루기가 없을 때의 값이 글자 단위로 같다`() {
         for ((key, value) in idleFight) assertEquals(value, FishingPlaceholders.idleFight(key), key)
     }

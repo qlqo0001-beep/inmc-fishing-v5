@@ -10,6 +10,7 @@ import com.inmc.fishing.fish.Trophy
 import com.inmc.fishing.player.Angler
 import com.inmc.fishing.util.Ph
 import kr.inmc.core.util.Text
+import kr.inmc.core.integration.Vanish
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -50,7 +51,10 @@ class FishingTools(private val fishing: Fishing) {
             Ph.of().player(player).fish(fish.label()).size(stamp.size)
                 .grade(fishing.grades[stamp.gradeId]?.tag().orEmpty()).value(trophy),
         )
-        for (online in Bukkit.getOnlinePlayers()) online.sendMessage(component)
+        // 투명인 사람의 자랑은 그를 볼 수 있는 사람에게만(core `Vanish`) — 자랑으로 투명이 들키지 않게.
+        for (online in Bukkit.getOnlinePlayers()) {
+            if (Vanish.canSee(online, player)) online.sendMessage(component)
+        }
     }
 
     /** `/낚시 정보` — 버전과 등록 수(2세대 `info`). */

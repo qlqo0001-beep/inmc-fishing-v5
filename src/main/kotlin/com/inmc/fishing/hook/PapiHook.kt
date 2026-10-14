@@ -69,6 +69,31 @@ object FishingPlaceholders {
 
     const val IDENTIFIER = "inmcfishing"
 
+    /** 힘겨루기 키(`fight_` 뒤). [idleFight] 가 답하는 것과 같다 — 시험이 못박는다. */
+    val FIGHT_KEYS = listOf(
+        "active", "state", "state_name", "state_display", "state_seconds", "state_percent", "guide", "click",
+        "tension", "tension_max", "tension_percent", "danger",
+        "stamina", "stamina_max", "stamina_percent",
+        "reel", "reel_max", "reel_percent", "reel_danger",
+        "distance", "distance_max", "distance_percent", "distance_danger",
+        "combo", "reel_combo",
+    )
+
+    /** 도감 키([collection]) · 피로도 키([fatigue]) · 순위. */
+    val COLLECTION_KEYS = listOf(
+        "collection_registered", "collection_perfect", "collection_discovered", "collection_slots",
+        "collection_slots_max", "collection_total", "collection_percent", "trophy", "rare_trophy", "total_caught",
+    )
+    val FATIGUE_KEYS = listOf("fatigue", "fatigue_max", "fatigue_percent")
+    val RANK_KEYS = listOf("rank", "score")
+
+    /**
+     * `/papi info` 의 목록(2026-10-10) — 고정 키 전부와 **지금 있는 물고기마다** `best_size_<id>`. 키를 더하면 여기도 더한다.
+     */
+    fun placeholders(fishIds: kotlin.collections.Collection<String>): List<String> =
+        (FIGHT_KEYS.map { "fight_$it" } + COLLECTION_KEYS + FATIGUE_KEYS + RANK_KEYS + fishIds.map { "best_size_$it" })
+            .map { "%" + IDENTIFIER + "_" + it + "%" }
+
     /**
      * 힘겨루기 중이 아닐 때. HUD 가 이 값으로 조건이 안 맞아 **저절로 숨는다.**
      * `_max` 가 1 인 것은 게이지가 0 으로 나누지 않게 하려는 2세대 값이다.
@@ -199,6 +224,8 @@ private class FishingExpansion(private val fishing: Fishing) : PlaceholderExpans
 
     /** false 면 `/papi reload` 뒤 확장이 버려지고 다시 등록할 계기가 없다. */
     override fun persist(): Boolean = true
+
+    override fun getPlaceholders(): List<String> = FishingPlaceholders.placeholders(fishing.fish.ids())
 
     override fun onRequest(player: OfflinePlayer?, params: String): String? {
         if (player == null) return null

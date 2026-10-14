@@ -40,6 +40,8 @@ class FishingPlugin : JavaPlugin() {
         com.inmc.fishing.registry.FishingSettings.register()
         // 커스텀아이템에 낚싯대·미끼·물약·생선살·물고기 겉모습 역할을 내놓는다(core ItemRoles).
         for (role in com.inmc.fishing.registry.FishingRoles.roles(fishing)) kr.inmc.core.integration.ItemRoles.register(role)
+        // 만들기 전용 공급처 `inmcfish:<물고기>[:trophy]` — 도장 찍힌 진짜 물고기를 /지급·킷·보상이 같은 참조로 만든다(2026-10-10).
+        kr.inmc.core.integration.CustomItemHook.register(com.inmc.fishing.hook.FishItemProvider(fishing))
         kr.inmc.core.integration.ItemRoles.listen(com.inmc.fishing.registry.FishingRoles.OWNER) { role ->
             if (!fishing.ready) return@listen
             for (store in listOf(fishing.fish, fishing.rodRegistry, fishing.baits, fishing.potions, fishing.fillets)) store.onRolesChanged(role)
@@ -101,6 +103,7 @@ class FishingPlugin : JavaPlugin() {
         // 람다가 이 플러그인의 객체와 클래스로더를 붙들고 있다. 빼지 않으면 샌다.
         kr.inmc.core.event.SignalCatalog.unregisterAll(SOURCE)
         kr.inmc.core.integration.ItemRoles.unregisterAll(com.inmc.fishing.registry.FishingRoles.OWNER)
+        kr.inmc.core.integration.CustomItemHook.unregister(com.inmc.fishing.hook.FishItemProvider.NAMESPACE)
         com.inmc.fishing.registry.FishingSettings.unregister()
         ticker.stop()
         fightTicker.stop()

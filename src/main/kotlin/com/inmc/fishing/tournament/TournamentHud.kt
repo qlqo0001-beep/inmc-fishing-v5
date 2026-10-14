@@ -1,6 +1,7 @@
 package com.inmc.fishing.tournament
 
 import com.inmc.fishing.Fishing
+import kr.inmc.core.integration.Vanish
 import kr.inmc.core.util.Text
 import net.kyori.adventure.bossbar.BossBar
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
@@ -18,7 +19,7 @@ import java.util.UUID
  * 대회 참가자의 화면 — 2세대 `TournamentHudManager` 와 같은 내용이다.
  *
  * - **보스바**: 참가 중인 대회마다 하나. 이름과 남은 시간.
- * - **사이드바**: 첫 번째 참가 대회의 시작·종료 시각, 상위 셋, 내 순위와 기록.
+ * - **사이드바**: 첫 번째 참가 대회의 시작·종료 시각, 상위 셋(투명인 사람은 그를 볼 수 있는 사람에게만), 내 순위와 기록.
  *
  * **참가자에게만 손댄다.** 비참가자의 스코어보드를 건드리면 다른 플러그인의 사이드바를 지운다
  * (2세대가 한때 그랬다). 우리가 사이드바를 준 사람만 기억해 두고, 그 사람만 되돌린다. 되돌릴
@@ -78,7 +79,12 @@ class TournamentHud(private val fishing: Fishing) {
         add(lines, "<gray>종료: </gray><white>" + hhmm(run.endsAt) + "</white>")
         add(lines, "<gray>─────────────</gray>")
         val ranked = run.board.ranked().filter { !it.left }
-        for ((index, standing) in ranked.take(TOP).withIndex()) {
+        // 투명인 참가자의 줄은 그를 볼 수 있는 사람에게만(core `Vanish`, 2026-10-10). 순위 숫자는 실제 순위 그대로 — 줄을 당겨 매기면
+        // 아래 "내 순위"(실제 순위, 상금이 이것으로 정해진다)와 어긋난다. 오프라인이면 투명일 수 없으니 그대로 보인다.
+        val shown = ranked.withIndex().filter { (_, standing) ->
+            Bukkit.getPlayer(standing.playerId)?.let { Vanish.canSee(player, it) } ?: true
+        }
+        for ((index, standing) in shown.take(TOP)) {
             add(lines, "<gold>#" + (index + 1) + " </gold><white>" + standing.playerName + "</white><gray> — </gray><aqua>" + record(run, standing) + "</aqua>")
         }
         add(lines, "<gray>─────────────</gray>")

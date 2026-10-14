@@ -3,7 +3,11 @@ package com.inmc.fishing.tournament
 import com.inmc.fishing.Fishing
 import com.inmc.fishing.fish.Catch
 import com.inmc.fishing.util.Ph
+import kr.inmc.core.integration.Mail
+import kr.inmc.core.integration.Vanish
+import kr.inmc.core.reward.Mailbox
 import kr.inmc.core.store.YamlFileStore
+import kr.inmc.core.util.Text
 import org.bukkit.Bukkit
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
@@ -158,7 +162,7 @@ class TournamentService(private val fishing: Fishing) : YamlFileStore(
         for ((index, standing) in ranked.withIndex()) {
             val rank = index + 1
             val commands = def.rewardFor(rank)
-            if (commands.isNotEmpty()) run(commands, standing.playerName)
+            if (commands.isNotEmpty()) award(commands, standing.playerId, standing.playerName, prizeSource(def, rank.toString() + "위"), prizeKey(running, rank.toString()))
 
             // 시상 시점에 **접속해 있지 않을 수 있다.** core 의 신호가 `playerId` 를 필수로 받고
             // `player` 를 null 허용으로 둔 이유가 정확히 이 자리다.
@@ -177,13 +181,16 @@ class TournamentService(private val fishing: Fishing) : YamlFileStore(
                 broadcast(
                     "tournament-result",
                     Ph.of().tournament(def.name).rank(rank).player(standing.playerName).score(standing.score),
+                    actor = Bukkit.getPlayer(standing.playerId),
                 )
             }
         }
 
         // 참가상은 점수를 못 낸 사람에게도 준다. 참가비를 낸 대가다. 스스로 나간 사람은 빠진다.
         if (def.participationReward.isNotEmpty()) {
-            for (standing in running.board.participants()) run(def.participationReward, standing.playerName)
+            for (standing in running.board.participants()) {
+                award(def.participationReward, standing.playerId, standing.playerName, prizeSource(def, "참가상"), prizeKey(running, "participation"))
+            }
         }
 
         scheduleNext(def, now)
@@ -326,11 +333,48 @@ class TournamentService(private val fishing: Fishing) : YamlFileStore(
     // --- 보상 실행 -------------------------------------------------------------------
 
     /**
-     * 콘솔 명령어를 돌린다. **오프라인 참가자에게도 돈다.**
+     * 상금을 준다. 접속 중이면 바로 명령어를 돌리고, **접속해 있지 않으면 우편으로**(core `Mail`, 2026-10-10) — 받을 때 그 사람
+     * 이름으로 실행된다. 셋 중 하나만 — 두 번 주지 않는다.
      *
-     * 2세대 초기에는 오프라인이면 1등이어도 보상이 그냥 사라졌다. 대회가 끝나는 시각에
-     * 반드시 접속해 있어야 한다는 규칙은 어디에도 적혀 있지 않았다.
+     * 우편 공급처가 **지금** 꽂혀 있지 않아도 우편 플러그인이 깔려 있으면 우리 우편함(core [kr.inmc.core.reward.Mailbox])에 넣는다 —
+     * 끌 때(공급처가 먼저 내려갔을 수 있다)와 켤 때(꺼진 사이 끝난 대회를 공급처가 꽂히기 전에 닫는다)가 그렇다. 우편함은 파일에 남고
+     * 공급처가 꽂히는 순간 그리로 넘긴다. 우편 플러그인이 아예 없을 때만 예전처럼 바로 돌린다 — 우리 우편함은 받는 화면이 없어서다.
+     *
+     * 2세대 초기에는 오프라인이면 1등이어도 보상이 그냥 사라졌다. 바로 돌리는 것으로 고쳤지만, 오프라인 대상에게
+     * 아무것도 주지 않는 명령어(CMI 가 가로챈 `/give` 등)면 여전히 조용히 사라졌다.
      */
+    private fun award(commands: List<String>, playerId: UUID, playerName: String, source: String, key: String) {
+        if (Bukkit.getPlayer(playerId) == null) {
+            // 우편의 받는 사람 자리는 `{player}` 하나 — 우리 별칭 `{플레이어}` 를 바꿔 넣는다.
+            val mailed = commands.map { it.replace("{플레이어}", Mail.PLAYER_TOKEN) }
+            val parcel = Mail.Parcel(
+                kind = Mail.Kind.REWARD,
+                origin = fishing.plugin.name,
+                source = source,
+                commands = mailed,
+                key = key,
+            )
+            if (Mail.deposit(playerId, parcel)) return
+            if (Bukkit.getPluginManager().getPlugin(MAIL_PLUGIN) != null) {
+                fishing.mailbox.deposit(playerId, Mailbox.Entry(source = source, commands = mailed.toMutableList()))
+                return
+            }
+        }
+        run(commands, playerName)
+    }
+
+    /**
+     * 우편의 고유 열쇠 — 대회 id · 연 시각 · 순위. 시상 뒤 `active.yml` 을 쓰기 전에 죽으면 다음 부팅에 같은 판을 다시 닫는데,
+     * 그때 아직 안 받은 같은 상금은 공급처가 한 통으로 친다(core `Mail.Parcel.key`).
+     */
+    private fun prizeKey(running: ActiveTournament, what: String): String =
+        "tournament:" + running.def.id + ":" + running.startedAt + ":" + what
+
+    /** 우편에 적히는 출처 — "낚시 대회 <이름> 1위". 대회 이름의 서식은 뗀다. */
+    private fun prizeSource(def: TournamentDef, what: String): String =
+        "낚시 대회 " + Text.plain(Text.render(def.name)) + " " + what
+
+    /** 콘솔 명령어를 돌린다. 이름은 여기서 바꿔 넣는다. */
     private fun run(commands: List<String>, playerName: String) {
         val console = Bukkit.getConsoleSender()
         for (raw in commands) {
@@ -345,9 +389,12 @@ class TournamentService(private val fishing: Fishing) : YamlFileStore(
         fishing.economy.deposit(Bukkit.getOfflinePlayer(playerId), def.entryFee, def.currency)
     }
 
-    private fun broadcast(key: String, ph: Ph) {
+    /** [actor] 가 공지에 이름이 나오는 사람이고 투명이면, 그를 볼 수 있는 사람에게만(core `Vanish`). */
+    private fun broadcast(key: String, ph: Ph, actor: Player? = null) {
         val component = fishing.messages.component(key, ph)
-        for (online in Bukkit.getOnlinePlayers()) online.sendMessage(component)
+        for (online in Bukkit.getOnlinePlayers()) {
+            if (actor == null || Vanish.canSee(online, actor)) online.sendMessage(component)
+        }
     }
 
     /**
@@ -537,6 +584,9 @@ class TournamentService(private val fishing: Fishing) : YamlFileStore(
     private class Winner(var name: String, var count: Int, val history: MutableList<String>)
 
     private companion object {
+        /** 우편 공급처(core `Mail`)를 꽂는 플러그인 — 깔려 있으면 공급처가 잠시 없어도 우리 우편함에 맡긴다([award]). */
+        const val MAIL_PLUGIN = "inmc-essentials"
+
         /** 결과 공지는 상위 몇 명까지. 2세대와 같다. */
         const val ANNOUNCED = 3
 

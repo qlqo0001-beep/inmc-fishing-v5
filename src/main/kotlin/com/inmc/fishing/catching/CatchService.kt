@@ -18,6 +18,7 @@ import kr.inmc.core.item.StoredItem
 import org.bukkit.Material
 import com.inmc.fishing.util.Ph
 import kr.inmc.core.util.Text
+import kr.inmc.core.integration.Vanish
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
@@ -364,23 +365,28 @@ class CatchService(private val fishing: Fishing) {
         when (result.trophy) {
             Trophy.NORMAL -> {
                 fishing.messages.send(player, "trophy", ph)
-                broadcast("trophy-broadcast", ph)
+                broadcast("trophy-broadcast", ph, player)
             }
 
             Trophy.RARE -> {
                 fishing.messages.send(player, "rare-trophy", ph)
-                broadcast("rare-trophy-broadcast", ph)
+                broadcast("rare-trophy-broadcast", ph, player)
             }
 
             Trophy.NONE -> Unit
         }
     }
 
-    /** 트로피는 서버 전체에 알린다. 낚은 사람에게는 이미 따로 보냈으므로 빼고 보낸다. */
-    private fun broadcast(key: String, ph: Ph) {
+    /**
+     * 트로피는 서버 전체에 알린다. 낚은 사람에게는 이미 따로 보냈으므로 빼고 보낸다.
+     * 낚은 사람이 투명이면 그를 볼 수 있는 사람에게만(core `Vanish`) — 공지가 투명을 들키게 하지 않는다.
+     */
+    private fun broadcast(key: String, ph: Ph, actor: Player) {
         if (!fishing.config.broadcastRewards) return
         val component = fishing.messages.component(key, ph)
-        for (online in Bukkit.getOnlinePlayers()) online.sendMessage(component)
+        for (online in Bukkit.getOnlinePlayers()) {
+            if (Vanish.canSee(online, actor)) online.sendMessage(component)
+        }
     }
 
     private fun runCommands(player: Player, result: Catch) {
