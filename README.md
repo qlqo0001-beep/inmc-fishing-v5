@@ -124,14 +124,14 @@ BetterHud 가 `fight_*` 로 그립니다(2026-10-01 — 상태 타이틀까지 �
 item: "minecraft:cod"          # 바닐라
 item: "mmoitems:MATERIAL:TUNA" # MMOItems
 item: "itemsadder:내물고기"     # ItemsAdder / Nexo / Oraxen
-mode: SNAPSHOT                 # 손에 든 것을 그대로 (참조를 못 만드는 수제 아이템)
+mode: SNAPSHOT                 # 올린 것을 그대로 (참조를 못 만드는 수제 아이템)
 ```
 
 `REFERENCE` 는 매번 원본에서 다시 만들고, `SNAPSHOT` 은 등록한 순간으로 고정합니다.
 
 **커스텀아이템이 있으면 그림이 저절로 붙습니다.** 물고기 · 생선살 · 미끼 · 낚싯대가 커스텀아이템으로 옮겨 가면서, 커스텀아이템에
 들어 있는 16x16 그림과 등급(물고기 F~S → 일반~신화)이 입혀집니다. `/커스텀아이템 리팩 빌드` 후 팩을 다시 올리면 보입니다.
-**손에 들고 GUI 의 등록 버튼을 누르면** 알아서 정해집니다.
+**GUI 의 등록 버튼에 아이템을 올리면** 알아서 정해집니다.
 
 ### `name` 과 `display-name` 은 다른 것입니다
 

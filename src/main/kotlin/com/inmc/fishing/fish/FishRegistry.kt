@@ -18,7 +18,7 @@ import org.bukkit.configuration.ConfigurationSection
 class FishRegistry(fishing: Fishing) : DefinitionStore<Fish>(
     fishing = fishing,
     fileName = "fish.yml",
-    header = "낚을 수 있는 것 전부. /낚시 관리 에서 손에 든 것을 그대로 등록할 수 있습니다.\n",
+    header = "낚을 수 있는 것 전부. /낚시 관리 에서 올린 아이템을 그대로 등록할 수 있습니다.\n",
     what = "물고기",
     rootKey = "fish",
 ) {
@@ -63,7 +63,7 @@ class FishRegistry(fishing: Fishing) : DefinitionStore<Fish>(
         fishing.rebuildEngine()
     }
 
-    /** 손에 든 것을 그대로 등록한다. 같은 id 가 있으면 덮어쓴다. */
+    /** 올린 것(관리 화면의 `ItemInputMenu`)을 그대로 등록한다. 같은 id 가 있으면 덮어쓴다. */
     fun register(id: String, gradeId: String, stack: org.bukkit.inventory.ItemStack): Fish {
         val fish = Fish(
             id = id.lowercase(),

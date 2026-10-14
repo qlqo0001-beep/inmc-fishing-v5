@@ -55,7 +55,7 @@ abstract class DefinitionListMenu<T : Any>(
 
     protected abstract fun openEdit(value: T)
 
-    /** 손에 든 스택을 그 종류의 **기본값**으로 등록한다. 값은 이어지는 편집 화면에서 채운다. */
+    /** 올린 스택을 그 종류의 **기본값**으로 등록한다. 값은 이어지는 편집 화면에서 채운다. */
     protected abstract fun create(id: String, stack: ItemStack): T
 
     /** 이 화면에서 만들고 지울 수 있는지. 바깥 플러그인이 공급하는 목록은 false 다. */
@@ -82,7 +82,7 @@ abstract class DefinitionListMenu<T : Any>(
             }
         }
 
-        set(Paging.SLOT_BACK, registerButton()) { promptRegister() }
+        set(Paging.SLOT_BACK, registerButton()) { openRegister() }
 
         if (page > 0) {
             set(Paging.SLOT_PREV, Icon.prevPage()) {
@@ -139,23 +139,25 @@ abstract class DefinitionListMenu<T : Any>(
                 listOf("<gray>" + reason + "</gray>"),
             )
         }
-        val hand = viewer.inventory.itemInMainHand
-        if (hand.type.isAir) {
-            return Icon.of(
-                Material.BARRIER,
-                "<red>등록하려면 아이템을 손에 드세요</red>",
-                listOf("<gray>등록할 아이템을 주 손에 들고</gray>", "<gray>이 버튼을 누르세요.</gray>"),
-            )
-        }
         return Icon.of(
             Material.WRITABLE_BOOK,
-            "<green>손에 든 것을 " + what + "(으)로 등록</green>",
+            "<green>" + what + " 등록</green>",
             listOf(
-                "<gray>대상: <white>" + (StoredItem.plainName(hand) ?: hand.type.name) + "</white></gray>",
+                "<gray>등록할 아이템을 올리고 [등록] 을 누르면</gray>",
+                "<gray>이름을 물어봅니다. 가방의 아이템은 그대로입니다.</gray>",
                 "",
-                "<yellow>▶ 클릭하면 이름을 물어봅니다</yellow>",
+                "<yellow>▶ 클릭: 아이템 올리기</yellow>",
             ),
         )
+    }
+
+    /** 아이템을 올리는 화면(core `ItemInputMenu`) — 손에 든 것을 읽던 자리(2026-10-14). */
+    private fun openRegister() {
+        if (!editable || blockedReason() != null) return
+        kr.inmc.core.gui.ItemInputMenu(
+            fishing, viewer, what + "(으)로 등록할 아이템 올리기",
+            back = { open(viewer) },
+        ) { stack -> promptRegister(stack) }.show()
     }
 
     /**
@@ -164,11 +166,7 @@ abstract class DefinitionListMenu<T : Any>(
      * 이름은 설정 파일의 **섹션 이름**이 되므로 규칙을 검사한다 — 점이 들어가면
      * YamlConfiguration 이 계층을 만들어 다시 읽히지 않는다.
      */
-    private fun promptRegister() {
-        if (!editable || blockedReason() != null) return
-        val hand = viewer.inventory.itemInMainHand.clone()
-        if (hand.type.isAir) return
-
+    private fun promptRegister(stack: ItemStack) {
         Editors.promptText(
             fishing.prompts,
             viewer,
@@ -188,7 +186,7 @@ abstract class DefinitionListMenu<T : Any>(
                 viewer.sendMessage(Text.render("<red>'" + id + "' 은(는) 이미 있습니다.</red>"))
                 return@promptText
             }
-            val created = create(id, hand)
+            val created = create(id, stack)
             viewer.sendMessage(Text.render("<green>'" + id + "' 로 등록했습니다. 이어서 설정을 채우세요.</green>"))
             openEdit(created)
         }

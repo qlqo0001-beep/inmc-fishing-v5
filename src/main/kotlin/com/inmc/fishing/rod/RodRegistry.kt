@@ -14,7 +14,7 @@ import org.bukkit.configuration.ConfigurationSection
 class RodRegistry(fishing: Fishing) : DefinitionStore<Rod>(
     fishing = fishing,
     fileName = "rods.yml",
-    header = "낚싯대. /낚시 관리 에서 손에 든 것을 그대로 등록할 수 있습니다.\n",
+    header = "낚싯대. /낚시 관리 에서 올린 아이템을 그대로 등록할 수 있습니다.\n",
     what = "낚싯대",
     rootKey = "rods",
 ), RodSource {
