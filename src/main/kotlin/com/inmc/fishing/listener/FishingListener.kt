@@ -223,6 +223,26 @@ class FishingListener(private val fishing: Fishing) : Listener {
         fishing.anglers.join(event.player)
     }
 
+    /** 모드가 바뀌었다(core `RealmChangeEvent` — inmc-worlds) — 판을 접고 그 모드의 기록으로 바꾼다. */
+    @EventHandler(priority = EventPriority.MONITOR)
+    fun onRealm(event: kr.inmc.core.event.RealmChangeEvent) {
+        val player = event.player
+        fishing.anglers.of(player)?.let { fishing.flow.cancel(player, it) }
+        fishing.anglers.rejoin(player)
+    }
+
+    /** 관리자가 낚시 기록의 "같이" 를 바꿨다 — 접속자 전부 바꾼다(열린 낚시 화면은 닫는다). */
+    @EventHandler(priority = EventPriority.MONITOR)
+    fun onRealmFeature(event: kr.inmc.core.event.RealmFeatureChangeEvent) {
+        if (event.key != com.inmc.fishing.player.AnglerStore.FEATURE) return
+        for (player in org.bukkit.Bukkit.getOnlinePlayers()) {
+            val holder = player.openInventory.topInventory.holder
+            if (holder is kr.inmc.core.gui.Menu && holder.owner === fishing) player.closeInventory()
+            fishing.anglers.of(player)?.let { fishing.flow.cancel(player, it) }
+            fishing.anglers.rejoin(player)
+        }
+    }
+
     @EventHandler(priority = EventPriority.MONITOR)
     fun onQuit(event: PlayerQuitEvent) {
         val player = event.player

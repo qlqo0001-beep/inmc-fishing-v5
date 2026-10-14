@@ -38,6 +38,11 @@ class FishingPlugin : JavaPlugin() {
         com.inmc.fishing.command.FishingCommand(fishing).register(this)
         registerSignalCatalog()
         com.inmc.fishing.registry.FishingSettings.register()
+        // 모드(inmc-worlds)의 기능 토글에 낚시 기록을 올린다(core Realms, 2026-10-15).
+        kr.inmc.core.integration.Realms.register(kr.inmc.core.integration.Realms.Feature(
+            com.inmc.fishing.player.AnglerStore.FEATURE, "낚시", "낚시 기록", org.bukkit.Material.FISHING_ROD,
+            listOf("어망 · 손질대 · 도감 · 피로 — 한 파일이라 통째로"),
+        ))
         // 커스텀아이템에 낚싯대·미끼·물약·생선살·물고기 겉모습 역할을 내놓는다(core ItemRoles).
         for (role in com.inmc.fishing.registry.FishingRoles.roles(fishing)) kr.inmc.core.integration.ItemRoles.register(role)
         // 만들기 전용 공급처 `inmcfish:<물고기>[:trophy]` — 도장 찍힌 진짜 물고기를 /지급·킷·보상이 같은 참조로 만든다(2026-10-10).
@@ -105,6 +110,7 @@ class FishingPlugin : JavaPlugin() {
         kr.inmc.core.integration.ItemRoles.unregisterAll(com.inmc.fishing.registry.FishingRoles.OWNER)
         kr.inmc.core.integration.CustomItemHook.unregister(com.inmc.fishing.hook.FishItemProvider.NAMESPACE)
         com.inmc.fishing.registry.FishingSettings.unregister()
+        kr.inmc.core.integration.Realms.unregisterAll("낚시")
         ticker.stop()
         fightTicker.stop()
         metrics.stop()
